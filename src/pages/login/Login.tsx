@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Header } from '../../components';
 
 const INITIAL_FORM_LOGIN = {
   email: '',
@@ -16,8 +18,7 @@ function Login() {
   const [formData, setFormData] = useState<LoginForm>(INITIAL_FORM_LOGIN);
   const [formErrors, setFormErrors] = useState<FormErrors>({});
   const [isFormValid, setIsFormValid] = useState(false);
-
-  console.log(formErrors);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const formValidate = (data: LoginForm) => {
@@ -25,7 +26,7 @@ function Login() {
       const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
       if (data.password.length < 7) {
-        errors.password = 'A senha deve ter no mínimo 6 caracteres';
+        errors.password = 'A senha deve ter no mínimo 7 caracteres';
       }
 
       if (!regex.test(formData.email)) {
@@ -45,7 +46,9 @@ function Login() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    localStorage.setItem('user', JSON.stringify({ email: formData.email }));
     setFormData(INITIAL_FORM_LOGIN);
+    navigate('/meals');
   };
 
   return (
