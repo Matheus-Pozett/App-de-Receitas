@@ -3,6 +3,7 @@ import { useState } from 'react';
 import imgPage from '../../images/iconeRecipesapp.svg';
 import imgProfile from '../../images/profileIcon.svg';
 import imgSearch from '../../images/searchIcon.svg';
+import { SearchBar } from '../searchBar';
 
 type HeaderProps = {
   title: string
@@ -11,6 +12,11 @@ type HeaderProps = {
 
 function Header({ title, iconSearch }: HeaderProps) {
   const [showInput, setShowInput] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
 
   const handleClick = () => {
     setShowInput(!showInput);
@@ -34,7 +40,13 @@ function Header({ title, iconSearch }: HeaderProps) {
       </Link>
 
       <h1 data-testid="page-title">{title}</h1>
-      {showInput && <input data-testid="search-input" />}
+      {showInput && (
+        <input
+          data-testid="search-input"
+          value={ inputValue }
+          onChange={ handleInputChange }
+        />)}
+      <SearchBar inputValue={ inputValue } />
     </header>
   );
 }
