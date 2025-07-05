@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getDrinksByFirstLetter, getDrinksByIngredient, getDrinksByName,
   getMealsByFirstLetter, getMealsByIngredient, getMealsByName } from '../../services/api';
 
@@ -7,48 +7,50 @@ type SearchBarProps = {
   inputValue: string
 };
 
+type SearchOptions = 'ingredient' | 'name' | 'first-letter';
+
 function SearchBar({ inputValue }: SearchBarProps) {
-  const [searchOption, setSearchOption] = useState('ingredient');
+  const [searchOption, setSearchOption] = useState<SearchOptions>('ingredient');
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchOption(event.target.value);
+    setSearchOption(event.target.value as SearchOptions);
   };
 
-  const handleClick = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleClick = async (event: React.FocusEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    switch (searchOption) {
-      case 'ingredient':
-        if (pathname === '/meals') {
-          await getMealsByIngredient(inputValue);
-        }
-        if (pathname === '/drinks') {
-          await getDrinksByIngredient(inputValue);
-        }
-        break;
-      case 'name':
-        if (pathname === '/meals') {
-          await getMealsByName(inputValue);
-        }
-        if (pathname === '/drinks') {
-          await getDrinksByName(inputValue);
-        }
-        break;
-      case 'first-letter':
-        if (inputValue.length !== 1) {
-          window.alert('Your search must have only 1 (one) character');
-        }
+    if (searchOption === 'first-letter' && inputValue.length !== 1) {
+      window.alert('Your search must have only 1 (one) character');
+      return;
+    }
 
-        if (pathname === '/meals') {
-          await getMealsByFirstLetter(inputValue);
-        }
-        if (pathname === '/drinks') {
-          await getDrinksByFirstLetter(inputValue);
-        }
-        break;
-      default:
-        break;
+    const apiFunctions = pathname === '/meals'
+      ? {
+        ingredient: getMealsByIngredient,
+        name: getMealsByName,
+        'first-letter': getMealsByFirstLetter,
+      }
+      : {
+        ingredient: getDrinksByIngredient,
+        name: getDrinksByName,
+        'first-letter': getDrinksByFirstLetter,
+      };
+
+    const searchFunction = apiFunctions[searchOption];
+    const results = await searchFunction(inputValue);
+
+    if (results === null || results === 'no data found') {
+      window.alert("Sorry, we haven't found any recipes for these filters");
+      return;
+    }
+
+    if (results.length === 1) {
+      const id = pathname === '/meals' ? results[0].idMeal : results[0].idDrink;
+      navigate(`${pathname}/${id}`);
+    } else {
+      console.log(results);
     }
   };
 
