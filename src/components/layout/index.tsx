@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { Header } from '../header';
+import { Footer } from '../footer';
 
 function Layout() {
   const [title, setTitle] = useState('');
@@ -12,6 +13,7 @@ function Layout() {
       <div>
         <Outlet context={ { setTitle, setIconSearch } } />
       </div>
+      <Footer />
     </div>
   );
 }
