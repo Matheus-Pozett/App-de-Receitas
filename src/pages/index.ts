@@ -6,5 +6,6 @@ export * from './drinksProgress';
 export * from './favorites';
 export * from './mealDetail';
 export * from './mealsProgress';
-export * from './recipes';
+export * from './doneRecipes';
 export * from './profile';
+export * from './recipes';

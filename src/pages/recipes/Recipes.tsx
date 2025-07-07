@@ -1,17 +1,36 @@
-import { useOutletContext } from 'react-router-dom';
-import { useEffect } from 'react';
-import { OutletContextType } from '../../types';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getDrinks, getMeals } from '../../services/api';
+import { Meals } from '../meals';
+import { Drinks } from '../drinks';
+import { DrinksType, MealsType } from '../../types';
 
 function Recipes() {
-  const { setTitle, setIconSearch } = useOutletContext<OutletContextType>();
+  const { pathname } = useLocation();
+  const [recipes, setRecipes] = useState<MealsType[] | DrinksType[]>([]);
 
   useEffect(() => {
-    setTitle('Done Recipes');
-    setIconSearch(false);
-  }, [setTitle, setIconSearch]);
+    const fetchRecipes = async () => {
+      try {
+        if (pathname === '/meals') {
+          const getRecipes = await getMeals();
+          setRecipes(getRecipes);
+        } else {
+          const getRecipes = await getDrinks();
+          setRecipes(getRecipes);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchRecipes();
+  }, [pathname]);
 
   return (
-    <div>Recipes</div>
+    <div>
+      {pathname === '/meals' && <Meals recipes={ recipes as MealsType[] } />}
+      {pathname === '/drinks' && <Drinks recipes={ recipes as DrinksType[] } />}
+    </div>
   );
 }
 
