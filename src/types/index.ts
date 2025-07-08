@@ -14,3 +14,7 @@ export type DrinksType = {
   strDrink: string;
   strDrinkThumb: string;
 };
+
+export type CategoriesType = {
+  strCategory: string;
+};
