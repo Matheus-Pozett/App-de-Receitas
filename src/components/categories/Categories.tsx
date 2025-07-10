@@ -11,7 +11,6 @@ type CategoriesProps = {
 
 function Categories({ categories, setRecipes, pathname }: CategoriesProps) {
   const [activeFilter, setActiveFilter] = useState('');
-  console.log(activeFilter);
 
   const handleClickCategory = async (strCategory: string) => {
     if (activeFilter === strCategory) {
