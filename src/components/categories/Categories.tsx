@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { filterCategoryDrinks, filterCategoryMeals, getDrinks,
   getMeals } from '../../services/api';
 import { CategoriesType, DrinksType, MealsType } from '../../types';
@@ -9,19 +10,29 @@ type CategoriesProps = {
 };
 
 function Categories({ categories, setRecipes, pathname }: CategoriesProps) {
+  const [activeFilter, setActiveFilter] = useState('');
+  console.log(activeFilter);
+
   const handleClickCategory = async (strCategory: string) => {
-    if (pathname === '/meals') {
-      setRecipes(await filterCategoryMeals(strCategory));
+    if (activeFilter === strCategory) {
+      handleClickAll();
     } else {
-      setRecipes(await filterCategoryDrinks(strCategory));
+      if (pathname === '/meals') {
+        setRecipes(await filterCategoryMeals(strCategory));
+      } else {
+        setRecipes(await filterCategoryDrinks(strCategory));
+      }
+      setActiveFilter(strCategory);
     }
   };
 
   const handleClickAll = async () => {
     if (pathname === '/meals') {
       setRecipes(await getMeals());
+      setActiveFilter('');
     } else {
       setRecipes(await getDrinks());
+      setActiveFilter('');
     }
   };
 
