@@ -7,56 +7,63 @@ import { Drinks } from '../drinks';
 import { CategoriesType, DrinksType, MealsType } from '../../types';
 import { Categories } from '../../components';
 
+  type FetchFunctionType = () => Promise<MealsType[] | DrinksType[]>;
+  type FetchCategoriesType = () => Promise<CategoriesType[]>;
+
 function Recipes() {
   const { pathname } = useLocation();
   const [recipes, setRecipes] = useState<MealsType[] | DrinksType[]>([]);
   const [categories, setCategories] = useState<CategoriesType[]>([]);
 
+  const fetchRecipesFunction: FetchFunctionType = (pathname === '/meals')
+    ? getMeals : getDrinks;
+
+  const fetchCategoriesFunction: FetchCategoriesType = (pathname === '/meals')
+    ? getCategoriesMeals : getCategoriesDrinks;
+
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
-        if (pathname === '/meals') {
-          const getRecipes = await getMeals();
-          setRecipes(getRecipes);
-        } else {
-          const getRecipes = await getDrinks();
-          setRecipes(getRecipes);
-        }
+        const recipesData = await fetchRecipesFunction();
+        setRecipes(recipesData);
       } catch (error) {
         console.error(error);
       }
     };
     fetchRecipes();
-  }, [pathname]);
+  }, [fetchRecipesFunction]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        if (pathname === '/meals') {
-          const getCategories = await getCategoriesMeals();
-          setCategories(getCategories);
-        } else {
-          const getCategories = await getCategoriesDrinks();
-          setCategories(getCategories);
-        }
+        const categoriesData = await fetchCategoriesFunction();
+        setCategories(categoriesData);
       } catch (error) {
         console.error(error);
       }
     };
     fetchCategories();
-  }, [pathname]);
+  }, [fetchCategoriesFunction]);
 
   return (
     <div>
       {pathname === '/meals' && (
         <div>
-          <Categories categories={ categories } />
+          <Categories
+            categories={ categories }
+            setRecipes={ setRecipes }
+            pathname={ pathname }
+          />
           <Meals recipes={ recipes as MealsType[] } />
         </div>
       )}
       {pathname === '/drinks' && (
         <div>
-          <Categories categories={ categories } />
+          <Categories
+            categories={ categories }
+            setRecipes={ setRecipes }
+            pathname={ pathname }
+          />
           <Drinks recipes={ recipes as DrinksType[] } />
         </div>
 

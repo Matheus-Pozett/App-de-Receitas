@@ -28,6 +28,18 @@ export const getCategoriesMeals = async () => {
   return data.meals;
 };
 
+export const filterCategoryMeals = async (categoryName: string) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+  const data = await response.json();
+  return data.meals;
+};
+
+export const filterCategoryDrinks = async (categoryName: string) => {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`);
+  const data = await response.json();
+  return data.drinks;
+};
+
 export const getCategoriesDrinks = async () => {
   const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
   const data = await response.json();
