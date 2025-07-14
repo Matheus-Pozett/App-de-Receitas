@@ -15,8 +15,6 @@ function MealDetail() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
 
-  console.log(ingredients);
-
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
@@ -32,8 +30,8 @@ function MealDetail() {
                 { name: ingredientName, measure: measureName },
               );
             }
-            setIngredient(ingredientsList);
           }
+          setIngredient(ingredientsList);
         }
       } catch (error) {
         console.error(error);
