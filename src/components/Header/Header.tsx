@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import iconApp from '../../images/icone-recipes-app.svg';
 import nameApp from '../../images/name-recipes-app.svg';
 import iconSearch from '../../images/searchIcon.svg';
@@ -22,18 +22,18 @@ function Header({ title }: HeaderProps) {
         <img src={ nameApp } alt="nome do site" />
 
         {showSearchButton && (
-          <button>
+          <button type="button">
             <img src={ iconSearch } alt=" pesquisar" data-testid="search-top-btn" />
           </button>
         )}
 
-        <button>
+        <Link to="/profile">
           <img
             src={ profileIcon }
             alt="Profile"
             data-testid="profile-top-btn"
           />
-        </button>
+        </Link>
       </div>
 
       <h1 data-testid="page-title">{title}</h1>
