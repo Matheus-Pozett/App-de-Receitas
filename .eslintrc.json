@@ -1,7 +1,8 @@
 {
   "extends": "@trybe/eslint-config-frontend/typescript",
   "rules": {
-    "no-alert": "off"
+    "no-alert": "off",
+    "react/jsx-max-depth": ["error", { "max": 6 }]
   },
   "overrides": [
     {
