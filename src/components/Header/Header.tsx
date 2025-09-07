@@ -10,7 +10,7 @@ type HeaderProps = {
 };
 
 function Header({ title }: HeaderProps) {
-  const [showSearh, setShowSearch] = useState(false);
+  const [showSearhBar, setShowSearchBar] = useState(false);
   const location = useLocation();
 
   const showSearchButton = location.pathname !== '/profile'
@@ -24,12 +24,12 @@ function Header({ title }: HeaderProps) {
         <img src={ nameApp } alt="nome do site" />
 
         {showSearchButton && (
-          <button type="button" onClick={ () => setShowSearch(!showSearh) }>
-            <img src={ iconSearch } alt=" pesquisar" data-testid="search-top-btn" />
+          <button type="button" onClick={ () => setShowSearchBar(!showSearhBar) }>
+            <img src={ iconSearch } alt="pesquisar" data-testid="search-top-btn" />
           </button>
         )}
 
-        {showSearh && (<input name="test" data-testid="search-input" />)}
+        {showSearhBar && (<input aria-label="Pesquisar" data-testid="search-input" />)}
 
         <Link to="/profile">
           <img
