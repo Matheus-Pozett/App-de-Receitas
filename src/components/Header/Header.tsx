@@ -4,6 +4,7 @@ import iconApp from '../../images/icone-recipes-app.svg';
 import nameApp from '../../images/name-recipes-app.svg';
 import iconSearch from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 type HeaderProps = {
   title: string,
@@ -29,7 +30,7 @@ function Header({ title }: HeaderProps) {
           </button>
         )}
 
-        {showSearhBar && (<input aria-label="Pesquisar" data-testid="search-input" />)}
+        {showSearhBar && <SearchBar />}
 
         <Link to="/profile">
           <img
