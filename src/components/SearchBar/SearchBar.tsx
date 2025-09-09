@@ -1,8 +1,38 @@
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { getMealByIngredient } from '../../services/api';
+import { useRecipes } from '../../context/RecipesContext';
+import { Recipe } from '../../types';
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
   const [radio, setRadio] = useState('');
+  const { setRecipes } = useRecipes();
+
+  const { pathname } = useLocation();
+
+  const handleSearch = async () => {
+    if (pathname === '/meals') {
+      try {
+        switch (radio) {
+          case 'ingredient': {
+            const searchIngredient = await getMealByIngredient(inputValue);
+            setRecipes(searchIngredient as Recipe[]);
+            break;
+          }
+          case 'name':
+            const 
+            break;
+          case 'first':
+            break;
+          default:
+            break;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <div>
@@ -48,7 +78,12 @@ function SearchBar() {
         />
         <label htmlFor="first-letter">First letter</label>
       </div>
-      <button data-testid="exec-search-btn">Search</button>
+      <button
+        data-testid="exec-search-btn"
+        onClick={ handleSearch }
+      >
+        Search
+      </button>
     </div>
   );
 }

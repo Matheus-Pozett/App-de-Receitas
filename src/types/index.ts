@@ -59,3 +59,5 @@ export type MealDetailsAPI = {
   strCreativeCommonsConfirmed: string | null;
   dateModified: string | null;
 };
+
+export type Recipe = MealsIngredientType | MealDetailsAPI;
