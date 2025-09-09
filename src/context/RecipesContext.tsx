@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import { MealDetailsAPI, MealsIngredientType, Recipe } from '../types';
+import { Recipe } from '../types';
 
 type RecipesContextType = {
   recipes: Recipe[];

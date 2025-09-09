@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getMealByIngredient } from '../../services/api';
+import { getMealByFirstLetter, getMealByIngredient, getMealByName } from '../../services/api';
 import { useRecipes } from '../../context/RecipesContext';
 import { Recipe } from '../../types';
 
@@ -8,6 +8,8 @@ function SearchBar() {
   const [inputValue, setInputValue] = useState('');
   const [radio, setRadio] = useState('');
   const { setRecipes } = useRecipes();
+
+  console.log(radio);
 
   const { pathname } = useLocation();
 
@@ -20,10 +22,19 @@ function SearchBar() {
             setRecipes(searchIngredient as Recipe[]);
             break;
           }
-          case 'name':
-            const 
+          case 'name': {
+            const searchName = await getMealByName(inputValue);
+            setRecipes(searchName as Recipe[]);
             break;
-          case 'first':
+          }
+          case 'first': {
+            if (inputValue.length !== 1) {
+              alert('Your search must have only 1 (one) character');
+              break;
+            }
+            const searchFirstName = await getMealByFirstLetter(inputValue);
+            setRecipes(searchFirstName as Recipe[]);
+          }
             break;
           default:
             break;
