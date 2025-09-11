@@ -1,47 +1,76 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getMealByFirstLetter, getMealByIngredient, getMealByName } from '../../services/api';
+import { getDrinksByFirstLetter,
+  getDrinksByIngredient,
+  getDrinksByName,
+  getMealByFirstLetter,
+  getMealByIngredient,
+  getMealByName } from '../../services/api';
 import { useRecipes } from '../../context/RecipesContext';
-import { Recipe } from '../../types';
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
   const [radio, setRadio] = useState('');
   const { setRecipes } = useRecipes();
-
-  console.log(radio);
-
   const { pathname } = useLocation();
 
-  const handleSearch = async () => {
-    if (pathname === '/meals') {
-      try {
-        switch (radio) {
-          case 'ingredient': {
-            const searchIngredient = await getMealByIngredient(inputValue);
-            setRecipes(searchIngredient as Recipe[]);
-            break;
-          }
-          case 'name': {
-            const searchName = await getMealByName(inputValue);
-            setRecipes(searchName as Recipe[]);
-            break;
-          }
-          case 'first': {
-            if (inputValue.length !== 1) {
-              alert('Your search must have only 1 (one) character');
-              break;
-            }
-            const searchFirstName = await getMealByFirstLetter(inputValue);
-            setRecipes(searchFirstName as Recipe[]);
-          }
-            break;
-          default:
-            break;
-        }
-      } catch (error) {
-        console.error(error);
+  const searchMeals = async () => {
+    switch (radio) {
+      case 'ingredient': {
+        const searchIngredient = await getMealByIngredient(inputValue);
+        setRecipes(searchIngredient);
+        break;
       }
+      case 'name': {
+        const searchName = await getMealByName(inputValue);
+        setRecipes(searchName);
+        break;
+      }
+      case 'first': {
+        if (inputValue.length !== 1) {
+          alert('Your search must have only 1 (one) character');
+          break;
+        }
+        const searchFirstName = await getMealByFirstLetter(inputValue);
+        setRecipes(searchFirstName);
+      }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const searchDrinks = async () => {
+    switch (radio) {
+      case 'ingredient': {
+        const searchIngedrient = await getDrinksByIngredient(inputValue);
+        setRecipes(searchIngedrient);
+        break;
+      }
+      case 'name': {
+        const searchName = await getDrinksByName(inputValue);
+        setRecipes(searchName);
+        break;
+      }
+      case 'first': {
+        if (inputValue.length !== 1) {
+          alert('Your search must have only 1 (one) character');
+          break;
+        }
+        const searchFirstLetter = await getDrinksByFirstLetter(inputValue);
+        setRecipes(searchFirstLetter);
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
+  const handleSearch = () => {
+    if (pathname === '/meals') {
+      searchMeals();
+    } else {
+      searchDrinks();
     }
   };
 
