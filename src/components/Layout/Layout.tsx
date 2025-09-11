@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from '../Header';
+import { Footer } from '../Footer';
 
 function Layout() {
   const location = useLocation();
@@ -24,10 +25,10 @@ function Layout() {
   return (
     <div>
       <Header title={ getTitle() } />
-
       <div>
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 }
