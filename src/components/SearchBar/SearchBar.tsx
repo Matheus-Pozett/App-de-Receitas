@@ -7,7 +7,12 @@ import { getDrinksByFirstLetter,
   getMealByIngredient,
   getMealByName } from '../../services/api';
 import { useRecipes } from '../../context/RecipesContext';
-import { DrinkDetailsType, DrinksIngredientType, MealDetailsAPI, MealsIngredientType } from '../../types';
+import { DrinkDetailsType,
+  DrinksIngredientType,
+  MealDetailsAPI,
+  MealsIngredientType } from '../../types';
+
+const NOT_FOUND_MESSAGE = "Sorry, we haven't found any recipes for these filters";
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
@@ -20,7 +25,9 @@ function SearchBar() {
     switch (radio) {
       case 'ingredient': {
         const searchIngredient = await getMealByIngredient(inputValue);
-        if (searchIngredient.length === 1) {
+        if (searchIngredient.length === 0) {
+          alert();
+        } else if (searchIngredient.length === 1) {
           const { idMeal } = searchIngredient[0] as MealsIngredientType;
           navigate(`/meals/${idMeal}`);
         } else {
@@ -30,7 +37,9 @@ function SearchBar() {
       }
       case 'name': {
         const searchName = await getMealByName(inputValue);
-        if (searchName.length === 1) {
+        if (searchName.length === 0) {
+          alert(NOT_FOUND_MESSAGE);
+        } else if (searchName.length === 1) {
           const { idMeal } = searchName[0] as MealDetailsAPI;
           navigate(`/meals/${idMeal}`);
         } else {
@@ -45,7 +54,9 @@ function SearchBar() {
         }
         const searchFirstName = await getMealByFirstLetter(inputValue);
 
-        if (searchFirstName.length === 1) {
+        if (searchFirstName.length === 0) {
+          alert(NOT_FOUND_MESSAGE);
+        } else if (searchFirstName.length === 1) {
           const { idMeal } = searchFirstName[0] as MealDetailsAPI;
           navigate(`/meals/${idMeal}`);
         } else {
@@ -62,7 +73,9 @@ function SearchBar() {
     switch (radio) {
       case 'ingredient': {
         const searchIngedrient = await getDrinksByIngredient(inputValue);
-        if (searchIngedrient.length === 1) {
+        if (searchIngedrient.length === 0) {
+          alert(NOT_FOUND_MESSAGE);
+        } else if (searchIngedrient.length === 1) {
           const { idDrink } = searchIngedrient[0] as DrinksIngredientType;
           navigate(`/drinks/${idDrink}`);
         } else {
@@ -72,7 +85,9 @@ function SearchBar() {
       }
       case 'name': {
         const searchName = await getDrinksByName(inputValue);
-        if (searchName.length === 1) {
+        if (searchName.length === 0) {
+          alert(NOT_FOUND_MESSAGE);
+        } else if (searchName.length === 1) {
           const { idDrink } = searchName[0] as DrinkDetailsType;
           navigate(`/drinks/${idDrink}`);
         } else {
@@ -86,7 +101,10 @@ function SearchBar() {
           break;
         }
         const searchFirstLetter = await getDrinksByFirstLetter(inputValue);
-        if (searchFirstLetter.length === 1) {
+
+        if (searchFirstLetter.length === 0) {
+          alert(NOT_FOUND_MESSAGE);
+        } else if (searchFirstLetter.length === 1) {
           const { idDrink } = searchFirstLetter[0] as DrinkDetailsType;
           navigate(`/drinks/${idDrink}`);
         } else {

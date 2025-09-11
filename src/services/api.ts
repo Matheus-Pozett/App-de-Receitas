@@ -38,7 +38,12 @@ export const getDrinksByIngredient = async (ingredient: string): Promise<Recipe[
   try {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredient}`);
     const data = await response.json();
-    return data.drinks || [];
+
+    if (!data.drinks || typeof data.drinks === 'string') {
+      return [];
+    }
+
+    return data.drinks;
   } catch (error) {
     console.error(error);
     return [];
