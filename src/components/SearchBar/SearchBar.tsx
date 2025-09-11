@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getDrinksByFirstLetter,
   getDrinksByIngredient,
   getDrinksByName,
@@ -7,23 +7,35 @@ import { getDrinksByFirstLetter,
   getMealByIngredient,
   getMealByName } from '../../services/api';
 import { useRecipes } from '../../context/RecipesContext';
+import { DrinkDetailsType, DrinksIngredientType, MealDetailsAPI, MealsIngredientType } from '../../types';
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState('');
   const [radio, setRadio] = useState('');
   const { setRecipes } = useRecipes();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const searchMeals = async () => {
     switch (radio) {
       case 'ingredient': {
         const searchIngredient = await getMealByIngredient(inputValue);
-        setRecipes(searchIngredient);
+        if (searchIngredient.length === 1) {
+          const { idMeal } = searchIngredient[0] as MealsIngredientType;
+          navigate(`/meals/${idMeal}`);
+        } else {
+          setRecipes(searchIngredient);
+        }
         break;
       }
       case 'name': {
         const searchName = await getMealByName(inputValue);
-        setRecipes(searchName);
+        if (searchName.length === 1) {
+          const { idMeal } = searchName[0] as MealDetailsAPI;
+          navigate(`/meals/${idMeal}`);
+        } else {
+          setRecipes(searchName);
+        }
         break;
       }
       case 'first': {
@@ -32,7 +44,13 @@ function SearchBar() {
           break;
         }
         const searchFirstName = await getMealByFirstLetter(inputValue);
-        setRecipes(searchFirstName);
+
+        if (searchFirstName.length === 1) {
+          const { idMeal } = searchFirstName[0] as MealDetailsAPI;
+          navigate(`/meals/${idMeal}`);
+        } else {
+          setRecipes(searchFirstName);
+        }
       }
         break;
       default:
@@ -44,12 +62,22 @@ function SearchBar() {
     switch (radio) {
       case 'ingredient': {
         const searchIngedrient = await getDrinksByIngredient(inputValue);
-        setRecipes(searchIngedrient);
+        if (searchIngedrient.length === 1) {
+          const { idDrink } = searchIngedrient[0] as DrinksIngredientType;
+          navigate(`/drinks/${idDrink}`);
+        } else {
+          setRecipes(searchIngedrient);
+        }
         break;
       }
       case 'name': {
         const searchName = await getDrinksByName(inputValue);
-        setRecipes(searchName);
+        if (searchName.length === 1) {
+          const { idDrink } = searchName[0] as DrinkDetailsType;
+          navigate(`/drinks/${idDrink}`);
+        } else {
+          setRecipes(searchName);
+        }
         break;
       }
       case 'first': {
@@ -58,7 +86,12 @@ function SearchBar() {
           break;
         }
         const searchFirstLetter = await getDrinksByFirstLetter(inputValue);
-        setRecipes(searchFirstLetter);
+        if (searchFirstLetter.length === 1) {
+          const { idDrink } = searchFirstLetter[0] as DrinkDetailsType;
+          navigate(`/drinks/${idDrink}`);
+        } else {
+          setRecipes(searchFirstLetter);
+        }
         break;
       }
       default:
