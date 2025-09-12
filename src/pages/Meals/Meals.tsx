@@ -17,16 +17,20 @@ function Meals() {
       }
     };
     getRecipesMeals();
-  }, []);
+  }, [setRecipes]);
 
-  const mealsOnly = recipes.filter(isMeal);
+  const meals = recipes.filter(isMeal);
 
   return (
     <div>
-      {mealsOnly.map((r) => (
-        <div key={ r.idMeal }>
-          <img src={ r.strMealThumb } alt="imagem da receita" />
-          <p>{r.strMeal}</p>
+      {meals.map((r, index) => (
+        <div key={ r.idMeal } data-testid={ `${index}-recipe-card` }>
+          <img
+            data-testid={ `${index}-card-img` }
+            src={ r.strMealThumb }
+            alt="imagem da receita"
+          />
+          <p data-testid={ `${index}-card-name` }>{r.strMeal}</p>
         </div>
       ))}
     </div>

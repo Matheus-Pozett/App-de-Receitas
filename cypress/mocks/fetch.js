@@ -118,7 +118,7 @@ const fetch = (url) => Promise.resolve({
     if (url === 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=xablau')
       return Promise.resolve(emptyDrinks);
 
-    if (url === 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
+    if (url === 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=w')
       return Promise.resolve(drinks);
 
     if (url === 'https://www.themealdb.com/api/json/v1/1/search.php?s=')

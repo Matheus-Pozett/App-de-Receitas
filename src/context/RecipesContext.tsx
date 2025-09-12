@@ -11,7 +11,7 @@ const RecipeContext = createContext<RecipesContextType | undefined>(undefined);
 
 // CRIA PROVIDER
 function RecipesContextProvider({ children }: { children: React.ReactNode }) {
-  const [recipes, setRecipes] = useState<Recipe[] | []>([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   const contextValue = {
     recipes,
