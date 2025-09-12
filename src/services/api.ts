@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Recipe } from '../types';
+import { Categories, Recipe } from '../types';
 
 export const getMealByIngredient = async (ingredient: string): Promise<Recipe[]> => {
   try {
@@ -66,6 +66,28 @@ export const getDrinksByFirstLetter = async (f: string): Promise<Recipe[]> => {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${f}`);
     const data = await response.json();
     return data.drinks || [];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+export const getMealsCategories = async (): Promise<Categories[]> => {
+  try {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    const data = await response.json();
+    return data.meals;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+export const getDrinksCategories = async (): Promise<Categories[]> => {
+  try {
+    const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    const data = await response.json();
+    return data.drinks;
   } catch (error) {
     console.error(error);
     return [];

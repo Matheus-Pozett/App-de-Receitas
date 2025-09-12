@@ -114,5 +114,9 @@ export type DrinkDetailsType = {
   dateModified: string;
 };
 
+export type Categories = {
+  strCategory: string
+};
+
 // eslint-disable-next-line max-len
 export type Recipe = MealsIngredientType | MealDetailsAPI | DrinksIngredientType | DrinkDetailsType;
