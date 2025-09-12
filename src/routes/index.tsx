@@ -1,20 +1,19 @@
 import { Route, Routes } from 'react-router-dom';
 import { DoneRecipes,
-  Drinks,
   DrinksDetails,
   FavoriteRecipes,
   Login,
-  Meals,
   MealsDetails,
-  Profile } from '../pages';
+  Profile,
+  Recipes } from '../pages';
 import { Layout } from '../components';
 
 function AppRoutes() {
   return (
     <Routes>
       <Route element={ <Layout /> }>
-        <Route path="/meals" element={ <Meals /> } />
-        <Route path="/drinks" element={ <Drinks /> } />
+        <Route path="/meals" element={ <Recipes /> } />
+        <Route path="/drinks" element={ <Recipes /> } />
         <Route path="/profile" element={ <Profile /> } />
         <Route path="/done-recipes" element={ <DoneRecipes /> } />
         <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />

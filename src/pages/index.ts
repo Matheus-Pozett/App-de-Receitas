@@ -6,3 +6,4 @@ export * from './MealsDetails';
 export * from './FavoriteRecipe';
 export * from './Profile';
 export * from './DrinksDetails';
+export * from './Recipes';
