@@ -3,62 +3,40 @@ import { useEffect, useState } from 'react';
 import { Meals } from '../Meals';
 import { Drinks } from '../Drinks';
 import { getDrinksCategories, getMealsCategories } from '../../services/api';
-import { Categories } from '../../types';
+import { CategoriesType } from '../../types';
+import Categories from '../../components/Categories/Categories';
 
 function Recipes() {
-  const [categories, setCategories] = useState<Categories[]>([]);
+  const [categories, setCategories] = useState<CategoriesType[]>([]);
   const { pathname } = useLocation();
+
+  const isMealsPage = pathname === '/meals';
 
   useEffect(() => {
     const getCategories = async () => {
       try {
-        if (pathname === '/meals') {
-          const mealsCategories = await getMealsCategories();
-          const sliceCategories = mealsCategories.slice(0, 5);
-          setCategories(sliceCategories);
-        } else {
-          const drinksCategories = await getDrinksCategories();
-          const sliceCategories = drinksCategories.slice(0, 5);
-          setCategories(sliceCategories);
-        }
+        const fetchCategories = isMealsPage
+          ? getMealsCategories
+          : getDrinksCategories;
+        const data = await fetchCategories();
+        setCategories(data.slice(0, 5));
       } catch (err) {
         console.error(err);
+        setCategories([]);
       }
     };
     getCategories();
-  }, [pathname]);
+  }, [isMealsPage]);
 
   return (
     <div>
-      {pathname === '/meals' ? (
-        <div>
-          <div>
-            {categories.map((category) => (
-              <button
-                data-testid={ `${category.strCategory}-category-filter` }
-                key={ category.strCategory }
-              >
-                {category.strCategory}
-              </button>
-            ))}
-          </div>
-          <Meals />
-        </div>
-      ) : (
-        <div>
-          <div>
-            {categories.map((category) => (
-              <button
-                data-testid={ `${category.strCategory}-category-filter` }
-                key={ category.strCategory }
-              >
-                {category.strCategory}
-              </button>
-            ))}
-          </div>
-          <Drinks />
-        </div>
-      )}
+      <div>
+        {categories.map(({ strCategory }) => (
+          <Categories category={ strCategory } key={ strCategory } />
+        ))}
+      </div>
+
+      {isMealsPage ? <Meals /> : <Drinks />}
     </div>
   );
 }

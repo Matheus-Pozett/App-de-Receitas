@@ -114,7 +114,7 @@ export type DrinkDetailsType = {
   dateModified: string;
 };
 
-export type Categories = {
+export type CategoriesType = {
   strCategory: string
 };
 
