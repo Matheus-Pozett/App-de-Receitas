@@ -51,6 +51,10 @@ function Recipes() {
     }
   }, [recipes.length]);
 
+  useEffect(() => {
+    setRecipes([]);
+  }, [isMealsPage, setRecipes]);
+
   const handleCategoryClick = async (categoryName: string) => {
     if (categoryName === activeFilter) {
       fetchInitialRecipes();
