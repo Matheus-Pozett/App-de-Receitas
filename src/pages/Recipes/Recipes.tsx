@@ -13,9 +13,20 @@ import { useRecipes } from '../../context/RecipesContext';
 function Recipes() {
   const [categories, setCategories] = useState<CategoriesType[]>([]);
   const { pathname } = useLocation();
-  const { setRecipes } = useRecipes();
+  const { recipes, setRecipes } = useRecipes();
 
   const isMealsPage = pathname === '/meals';
+
+  const fetchInitialRecipes = async () => {
+    try {
+      const fetchFunction = isMealsPage ? getMealByName('') : getDrinksByName('w');
+      const initialRecipes = await fetchFunction;
+      setRecipes(initialRecipes.slice(0, 12));
+    } catch (error) {
+      console.error('Erro ao buscar receitas:', error);
+      setRecipes([]);
+    }
+  };
 
   useEffect(() => {
     const getCategories = async () => {
@@ -33,18 +44,18 @@ function Recipes() {
     getCategories();
   }, [isMealsPage]);
 
-  const handleClickAll = async () => {
-    const clear = isMealsPage ? getMealByName('') : getDrinksByName('w');
-    const data = await clear;
-    setRecipes(data.slice(0, 12));
-  };
+  useEffect(() => {
+    if (recipes.length === 0) {
+      fetchInitialRecipes();
+    }
+  }, [recipes.length]);
 
   return (
     <div>
       <div>
         <button
           data-testid="All-category-filter"
-          onClick={ handleClickAll }
+          onClick={ fetchInitialRecipes }
         >
           All
         </button>

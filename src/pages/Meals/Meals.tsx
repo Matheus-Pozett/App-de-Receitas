@@ -1,23 +1,8 @@
-import { useEffect } from 'react';
 import { useRecipes } from '../../context/RecipesContext';
-import { getMealByName } from '../../services/api';
 import { isMeal } from '../../types/typeGuards';
 
 function Meals() {
-  const { recipes, setRecipes } = useRecipes();
-
-  useEffect(() => {
-    const getRecipesMeals = async () => {
-      try {
-        const getMeals = await getMealByName('');
-        const meals = getMeals.slice(0, 12);
-        setRecipes(meals);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getRecipesMeals();
-  }, [setRecipes]);
+  const { recipes } = useRecipes();
 
   const meals = recipes.filter(isMeal);
 

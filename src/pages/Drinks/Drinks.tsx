@@ -1,23 +1,8 @@
-import { useEffect } from 'react';
 import { useRecipes } from '../../context/RecipesContext';
-import { getDrinksByName } from '../../services/api';
 import { isDrink } from '../../types/typeGuards';
 
 function Drinks() {
-  const { recipes, setRecipes } = useRecipes();
-
-  useEffect(() => {
-    const getRecipesDrinks = async () => {
-      try {
-        const getDrinks = await getDrinksByName('w');
-        const drinks = getDrinks.slice(0, 12);
-        setRecipes(drinks);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getRecipesDrinks();
-  }, [setRecipes]);
+  const { recipes } = useRecipes();
 
   const drinks = recipes.filter(isDrink);
 
