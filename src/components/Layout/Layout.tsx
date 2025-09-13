@@ -1,30 +1,37 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from '../Header';
 import { Footer } from '../Footer';
+import mealsIcon from '../../images/icone-prato.svg';
+import doneIcon from '../../images/doneIcon.svg';
+import drinksIcon from '../../images/drinksIcon.svg';
+import profileIcon from '../../images/profileIcon.svg';
+import favoriteIcon from '../../images/favoritesIcon.svg';
 
 function Layout() {
   const location = useLocation();
 
-  const getTitle = () => {
+  const getHeaderContent = () => {
     switch (location.pathname) {
       case '/meals':
-        return 'Meals';
+        return { title: 'Meals', icon: mealsIcon };
       case '/drinks':
-        return 'Drinks';
+        return { title: 'Drinks', icon: drinksIcon };
       case '/profile':
-        return 'Profile';
+        return { title: 'Profile', icon: profileIcon };
       case '/done-recipes':
-        return 'Done Recipes';
+        return { title: 'Done Recipes', icon: doneIcon };
       case '/favorite-recipes':
-        return 'Favorite Recipes';
+        return { title: 'Favorite Recipes', icon: favoriteIcon };
       default:
-        return '';
+        return { title: '', icon: '' };
     }
   };
 
+  const { title, icon } = getHeaderContent();
+
   return (
     <div>
-      <Header title={ getTitle() } />
+      <Header title={ title } icon={ icon } />
       <div>
         <Outlet />
       </div>
