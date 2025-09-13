@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Meals } from '../Meals';
 import { Drinks } from '../Drinks';
-import { getDrinksByName,
+import { filterDrinkByCategory, filterMealByCategory, getDrinksByName,
   getDrinksCategories,
   getMealByName,
   getMealsCategories } from '../../services/api';
@@ -12,6 +12,7 @@ import { useRecipes } from '../../context/RecipesContext';
 
 function Recipes() {
   const [categories, setCategories] = useState<CategoriesType[]>([]);
+  const [activeFilter, setActiveFilter] = useState('');
   const { pathname } = useLocation();
   const { recipes, setRecipes } = useRecipes();
 
@@ -50,6 +51,23 @@ function Recipes() {
     }
   }, [recipes.length]);
 
+  const handleCategoryClick = async (categoryName: string) => {
+    if (categoryName === activeFilter) {
+      fetchInitialRecipes();
+      setActiveFilter('');
+      return;
+    }
+
+    try {
+      const fetchByCategory = isMealsPage ? filterMealByCategory : filterDrinkByCategory;
+      const filteredRecipes = await fetchByCategory(categoryName);
+      setRecipes(filteredRecipes.slice(0, 12));
+      setActiveFilter(categoryName);
+    } catch (error) {
+      console.error(`Erro ao filtrar por ${categoryName}:`, error);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -60,7 +78,11 @@ function Recipes() {
           All
         </button>
         {categories.map(({ strCategory }) => (
-          <Categories category={ strCategory } key={ strCategory } />
+          <Categories
+            category={ strCategory }
+            key={ strCategory }
+            handleCategoryClick={ handleCategoryClick }
+          />
         ))}
       </div>
 
