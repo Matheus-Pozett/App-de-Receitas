@@ -1,11 +1,11 @@
 import { Recipe,
-  MealsIngredientType,
+  MealSummary,
   DrinkDetailsType,
-  DrinksIngredientType,
+  DrinksSummary,
   MealDetailsAPI } from './index';
 
-type MealType = MealsIngredientType | MealDetailsAPI;
-type DrinkType = DrinkDetailsType | DrinksIngredientType;
+type MealType = MealSummary | MealDetailsAPI;
+type DrinkType = DrinkDetailsType | DrinksSummary;
 
 export function isMeal(recipe: Recipe): recipe is MealType {
   return 'idMeal' in recipe;

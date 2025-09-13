@@ -1,10 +1,10 @@
-export type MealsIngredientType = {
+export type MealSummary = {
   strMeal: string;
   strMealThumb: string;
   idMeal: string;
 };
 
-export type DrinksIngredientType = {
+export type DrinksSummary = {
   strDrink: string;
   strDrinkThumb: string;
   idDrink: string;
@@ -119,4 +119,4 @@ export type CategoriesType = {
 };
 
 // eslint-disable-next-line max-len
-export type Recipe = MealsIngredientType | MealDetailsAPI | DrinksIngredientType | DrinkDetailsType;
+export type Recipe = MealSummary | MealDetailsAPI | DrinksSummary | DrinkDetailsType;

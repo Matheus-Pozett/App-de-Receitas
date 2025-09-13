@@ -8,7 +8,7 @@ import { getDrinksByFirstLetter,
   getMealByName } from '../../services/api';
 import { useRecipes } from '../../context/RecipesContext';
 import { DrinkDetailsType,
-  DrinksIngredientType,
+  DrinksSummary,
   MealDetailsAPI,
   MealsIngredientType } from '../../types';
 
@@ -76,7 +76,7 @@ function SearchBar() {
         if (searchIngedrient.length === 0) {
           alert(NOT_FOUND_MESSAGE);
         } else if (searchIngedrient.length === 1) {
-          const { idDrink } = searchIngedrient[0] as DrinksIngredientType;
+          const { idDrink } = searchIngedrient[0] as DrinksSummary;
           navigate(`/drinks/${idDrink}`);
         } else {
           setRecipes(searchIngedrient);

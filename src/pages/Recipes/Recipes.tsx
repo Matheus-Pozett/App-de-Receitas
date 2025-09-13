@@ -2,13 +2,18 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Meals } from '../Meals';
 import { Drinks } from '../Drinks';
-import { getDrinksCategories, getMealsCategories } from '../../services/api';
+import { getDrinksByName,
+  getDrinksCategories,
+  getMealByName,
+  getMealsCategories } from '../../services/api';
 import { CategoriesType } from '../../types';
 import Categories from '../../components/Categories/Categories';
+import { useRecipes } from '../../context/RecipesContext';
 
 function Recipes() {
   const [categories, setCategories] = useState<CategoriesType[]>([]);
   const { pathname } = useLocation();
+  const { setRecipes } = useRecipes();
 
   const isMealsPage = pathname === '/meals';
 
@@ -28,9 +33,21 @@ function Recipes() {
     getCategories();
   }, [isMealsPage]);
 
+  const handleClickAll = async () => {
+    const clear = isMealsPage ? getMealByName('') : getDrinksByName('w');
+    const data = await clear;
+    setRecipes(data.slice(0, 12));
+  };
+
   return (
     <div>
       <div>
+        <button
+          data-testid="All-category-filter"
+          onClick={ handleClickAll }
+        >
+          All
+        </button>
         {categories.map(({ strCategory }) => (
           <Categories category={ strCategory } key={ strCategory } />
         ))}

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { CategoriesType, Recipe } from '../types';
+import { CategoriesType, DrinksSummary, MealSummary, Recipe } from '../types';
 
 export const getMealByIngredient = async (ingredient: string): Promise<Recipe[]> => {
   try {
@@ -86,6 +86,28 @@ export const getMealsCategories = async (): Promise<CategoriesType[]> => {
 export const getDrinksCategories = async (): Promise<CategoriesType[]> => {
   try {
     const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
+    const data = await response.json();
+    return data.drinks;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+export const filterMealByCategory = async (category: string): Promise<MealSummary[]> => {
+  try {
+    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
+    const data = await response.json();
+    return data.meals;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+export const filterDrinkByCategory = async (category: string): Promise<DrinksSummary[]> => {
+  try {
+    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`);
     const data = await response.json();
     return data.drinks;
   } catch (error) {
