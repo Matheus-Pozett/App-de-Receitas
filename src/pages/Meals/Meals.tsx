@@ -8,22 +8,35 @@ function Meals() {
   const meals = recipes.filter(isMeal);
 
   return (
-    <div>
-      {meals.map((r, index) => (
-        <Link
-          key={ r.idMeal }
-          data-testid={ `${index}-recipe-card` }
-          to={ `/meals/${r.idMeal}` }
-        >
-          <img
-            data-testid={ `${index}-card-img` }
-            style={ { width: '100%', maxWidth: '300px', height: 'auto' } }
-            src={ r.strMealThumb }
-            alt="imagem da receita"
-          />
-          <p data-testid={ `${index}-card-name` }>{r.strMeal}</p>
-        </Link>
-      ))}
+    <div className="container pb-5">
+      <div className="row">
+        {meals.map((r, index) => (
+          <div key={ r.idMeal } className="col-6 mb-3">
+            <Link
+              data-testid={ `${index}-recipe-card` }
+              to={ `/meals/${r.idMeal}` }
+              className="text-decoration-none text-dark"
+            >
+              <div className="card h-100 shadow-sm">
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ r.strMealThumb }
+                  alt={ `Imagem da receita ${r.strMeal}` }
+                  className="card-img-top"
+                />
+                <div className="card-body p-2 text-center">
+                  <p
+                    data-testid={ `${index}-card-name` }
+                    className="card-title fw-medium mb-0"
+                  >
+                    {r.strMeal}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

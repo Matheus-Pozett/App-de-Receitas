@@ -1,9 +1,32 @@
 import { screen } from '@testing-library/dom';
+import { MemoryRouter } from 'react-router-dom';
+import { render } from '@testing-library/react';
 import App from '../App';
 import { renderWithRouter } from './renderWithRouter';
+import { Header } from '../components/Header';
 
 describe('Componente Header', () => {
-  test('Elementos devem estar presentes na tela', () => {
+  test('Testa se elementos estão presentes no header', () => {
+    render(
+      <MemoryRouter>
+        <Header title="Meals" icon="../images/icone-prato.svg" />
+      </MemoryRouter>,
+    );
+
+    const header = screen.getByRole('banner');
+    const logoApp = screen.getByRole('img', { name: /icone do app/i });
+    const nameApp = screen.getByRole('img', { name: /nome do site/i });
+    const profileBtn = screen.getByRole('link', { name: /Profile/i });
+    const searchBtn = screen.getByRole('button', { name: /pesquisar/i });
+
+    expect(header).toBeInTheDocument();
+    expect(logoApp).toBeInTheDocument();
+    expect(nameApp).toBeInTheDocument();
+    expect(profileBtn).toBeInTheDocument();
+    expect(searchBtn).toBeInTheDocument();
+  });
+
+  test('Header deve estar presentes na rota /meals', () => {
     renderWithRouter(<App />, { route: '/meals' });
 
     const logoApp = screen.getByRole('img', { name: /icone do app/i });

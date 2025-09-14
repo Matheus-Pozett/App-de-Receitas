@@ -8,22 +8,35 @@ function Drinks() {
   const drinks = recipes.filter(isDrink);
 
   return (
-    <div>
-      {drinks.map((drink, index) => (
-        <Link
-          key={ drink.idDrink }
-          data-testid={ `${index}-recipe-card` }
-          to={ `/drinks/${drink.idDrink}` }
-        >
-          <img
-            src={ drink.strDrinkThumb }
-            style={ { width: '100%', maxWidth: '300px', height: 'auto' } }
-            alt="imagem da bebida"
-            data-testid={ `${index}-card-img` }
-          />
-          <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
-        </Link>
-      ))}
+    <div className="container pb-5">
+      <div className="row">
+        {drinks.map((drink, index) => (
+          <div key={ drink.idDrink } className="col-6 mb-3">
+            <Link
+              data-testid={ `${index}-recipe-card` }
+              to={ `/drinks/${drink.idDrink}` }
+              className="text-decoration-none text-dark"
+            >
+              <div className="card h-100 shadow-sm">
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt={ `Imagem da bebida ${drink.strDrink}` }
+                  data-testid={ `${index}-card-img` }
+                  className="card-img-top"
+                />
+                <div className="card-body p-2 text-center">
+                  <p
+                    data-testid={ `${index}-card-name` }
+                    className="card-title fw-medium mb-0"
+                  >
+                    {drink.strDrink}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

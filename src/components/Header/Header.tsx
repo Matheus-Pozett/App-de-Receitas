@@ -81,7 +81,7 @@ function Header({ title, icon }: HeaderProps) {
               className="fw-bold"
               style={ { color: '#4B0082', letterSpacing: '2px' } }
             >
-              {title.toUpperCase()}
+              {title}
             </h1>
           </Col>
         </Row>

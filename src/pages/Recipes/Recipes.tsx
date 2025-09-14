@@ -9,6 +9,30 @@ import { filterDrinkByCategory, filterMealByCategory, getDrinksByName,
 import { CategoriesType } from '../../types';
 import Categories from '../../components/Categories/Categories';
 import { useRecipes } from '../../context/RecipesContext';
+import iconAll from '../../images/icone-prato.svg';
+import beefIcon from '../../images/beefIcon.svg';
+import goatIcon from '../../images/goatIcon.svg';
+import chickenIcon from '../../images/chickenIcon.svg';
+import dessertIcon from '../../images/dessertIcon.svg';
+import breakfastIcon from '../../images/breakfastIcon.svg';
+import cocktailIcon from '../../images/cocktailIcon.svg';
+import cocoaIcon from '../../images/cocoaIcon.svg';
+import ordinaryIcon from '../../images/ordinaryIcon.svg';
+import shakeIcon from '../../images/shakeIcon.svg';
+import otherIcon from '../../images/otherIcon.svg';
+
+const categoryIcons: { [key: string]: string } = {
+  Beef: beefIcon,
+  Breakfast: breakfastIcon,
+  Chicken: chickenIcon,
+  Dessert: dessertIcon,
+  Goat: goatIcon,
+  Cocktail: cocktailIcon,
+  'Ordinary Drink': ordinaryIcon,
+  'Punch / Party Drink': cocoaIcon,
+  Shake: shakeIcon,
+  'Other / Unknown': otherIcon,
+};
 
 function Recipes() {
   const [categories, setCategories] = useState<CategoriesType[]>([]);
@@ -74,20 +98,37 @@ function Recipes() {
 
   return (
     <div>
-      <div>
-        <button
-          data-testid="All-category-filter"
-          onClick={ fetchInitialRecipes }
-        >
-          All
-        </button>
-        {categories.map(({ strCategory }) => (
-          <Categories
-            category={ strCategory }
-            key={ strCategory }
-            handleCategoryClick={ handleCategoryClick }
-          />
-        ))}
+      <div className="container my-3">
+        <div className="row justify-content-center text-center">
+          <div className="col-2 d-flex justify-content-center mb-3">
+            <button
+              data-testid="All-category-filter"
+              onClick={ fetchInitialRecipes }
+              className="btn d-flex flex-column align-items-center text-warning"
+            >
+              <div
+                className="d-flex justify-content-center align-items-center
+                  border border-warning rounded-circle p-3 mb-1"
+              >
+                <img
+                  src={ iconAll }
+                  alt="Todas categorias"
+                  style={ { width: '28px', height: '28px' } }
+                />
+              </div>
+              <small className="text-dark fw-medium">All</small>
+            </button>
+          </div>
+
+          {categories.map(({ strCategory }) => (
+            <Categories
+              category={ strCategory }
+              key={ strCategory }
+              handleCategoryClick={ handleCategoryClick }
+              img={ categoryIcons[strCategory] }
+            />
+          ))}
+        </div>
       </div>
 
       {isMealsPage ? <Meals /> : <Drinks />}
