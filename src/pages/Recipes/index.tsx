@@ -1,13 +1,11 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Meals } from '../Meals';
-import { Drinks } from '../Drinks';
 import { filterDrinkByCategory, filterMealByCategory, getDrinksByName,
   getDrinksCategories,
   getMealByName,
   getMealsCategories } from '../../services/api';
 import { CategoriesType } from '../../types';
-import Categories from '../../components/Categories/Categories';
+import Categories from '../../components/Categories';
 import { useRecipes } from '../../context/RecipesContext';
 import iconAll from '../../images/icone-prato.svg';
 import beefIcon from '../../images/beefIcon.svg';
@@ -20,6 +18,8 @@ import cocoaIcon from '../../images/cocoaIcon.svg';
 import ordinaryIcon from '../../images/ordinaryIcon.svg';
 import shakeIcon from '../../images/shakeIcon.svg';
 import otherIcon from '../../images/otherIcon.svg';
+import Meals from '../Meals';
+import Drinks from '../Drinks';
 
 const categoryIcons: { [key: string]: string } = {
   Beef: beefIcon,
@@ -136,4 +136,4 @@ function Recipes() {
   );
 }
 
-export { Recipes };
+export default Recipes;

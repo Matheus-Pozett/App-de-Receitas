@@ -1,12 +1,12 @@
 import { Route, Routes } from 'react-router-dom';
-import { DoneRecipes,
-  DrinksDetails,
-  FavoriteRecipes,
-  Login,
-  MealsDetails,
-  Profile,
-  Recipes } from '../pages';
-import { Layout } from '../components';
+import Layout from '../components/Layout';
+import Recipes from '../pages/Recipes';
+import Profile from '../pages/Profile';
+import DoneRecipes from '../pages/DoneRecipes';
+import FavoriteRecipes from '../pages/FavoriteRecipe';
+import MealsDetails from '../pages/MealsDetails/MealsDetails';
+import DrinksDetails from '../pages/DrinksDetails';
+import Login from '../pages/Login';
 
 function AppRoutes() {
   return (

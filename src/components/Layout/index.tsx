@@ -1,11 +1,11 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { Header } from '../Header';
-import { Footer } from '../Footer';
 import mealsIcon from '../../images/icone-prato.svg';
 import doneIcon from '../../images/doneIcon.svg';
 import drinksIcon from '../../images/drinksIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
 import favoriteIcon from '../../images/favoritesIcon.svg';
+import Footer from '../Footer';
+import Header from '../Header';
 
 function Layout() {
   const location = useLocation();
@@ -40,4 +40,4 @@ function Layout() {
   );
 }
 
-export { Layout };
+export default Layout;

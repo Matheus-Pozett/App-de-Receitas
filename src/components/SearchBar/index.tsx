@@ -22,7 +22,6 @@ function SearchBar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
-  // --- mesma lógica original ---
   const searchMeals = async () => {
     switch (radio) {
       case 'ingredient': {
@@ -193,4 +192,4 @@ function SearchBar() {
   );
 }
 
-export { SearchBar };
+export default SearchBar;

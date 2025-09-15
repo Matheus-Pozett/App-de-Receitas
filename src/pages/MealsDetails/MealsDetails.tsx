@@ -4,4 +4,4 @@ function MealsDetails() {
   );
 }
 
-export { MealsDetails };
+export default MealsDetails;

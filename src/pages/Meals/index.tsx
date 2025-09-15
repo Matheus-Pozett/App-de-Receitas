@@ -1,27 +1,27 @@
 import { Link } from 'react-router-dom';
 import { useRecipes } from '../../context/RecipesContext';
-import { isDrink } from '../../types/typeGuards';
+import { isMeal } from '../../types/typeGuards';
 
-function Drinks() {
+function Meals() {
   const { recipes } = useRecipes();
 
-  const drinks = recipes.filter(isDrink);
+  const meals = recipes.filter(isMeal);
 
   return (
     <div className="container pb-5">
       <div className="row">
-        {drinks.map((drink, index) => (
-          <div key={ drink.idDrink } className="col-6 mb-3">
+        {meals.map((r, index) => (
+          <div key={ r.idMeal } className="col-6 mb-3">
             <Link
               data-testid={ `${index}-recipe-card` }
-              to={ `/drinks/${drink.idDrink}` }
+              to={ `/meals/${r.idMeal}` }
               className="text-decoration-none text-dark"
             >
               <div className="card h-100 shadow-sm">
                 <img
-                  src={ drink.strDrinkThumb }
-                  alt={ `Imagem da bebida ${drink.strDrink}` }
                   data-testid={ `${index}-card-img` }
+                  src={ r.strMealThumb }
+                  alt={ `Imagem da receita ${r.strMeal}` }
                   className="card-img-top"
                 />
                 <div className="card-body p-2 text-center">
@@ -29,7 +29,7 @@ function Drinks() {
                     data-testid={ `${index}-card-name` }
                     className="card-title fw-medium mb-0"
                   >
-                    {drink.strDrink}
+                    {r.strMeal}
                   </p>
                 </div>
               </div>
@@ -41,4 +41,4 @@ function Drinks() {
   );
 }
 
-export { Drinks };
+export default Meals;

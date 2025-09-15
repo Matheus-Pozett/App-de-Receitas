@@ -4,4 +4,4 @@ function DoneRecipes() {
   );
 }
 
-export { DoneRecipes };
+export default DoneRecipes;

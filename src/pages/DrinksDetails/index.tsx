@@ -4,4 +4,4 @@ function DrinksDetails() {
   );
 }
 
-export { DrinksDetails };
+export default DrinksDetails;

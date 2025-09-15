@@ -5,7 +5,7 @@ import iconApp from '../../images/icone-recipes-app.svg';
 import nameApp from '../../images/name-recipes-app.svg';
 import iconSearch from '../../images/searchIcon.svg';
 import profileIcon from '../../images/profileIcon.svg';
-import { SearchBar } from '../SearchBar/SearchBar';
+import SearchBar from '../SearchBar';
 
 type HeaderProps = {
   title: string,
@@ -96,4 +96,4 @@ function Header({ title, icon }: HeaderProps) {
   );
 }
 
-export { Header };
+export default Header;

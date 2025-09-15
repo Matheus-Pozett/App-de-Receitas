@@ -4,4 +4,4 @@ function FavoriteRecipes() {
   );
 }
 
-export { FavoriteRecipes };
+export default FavoriteRecipes;
