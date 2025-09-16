@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/dom';
+import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest/dist/index.js';
 import App from '../App';
 import { renderWithRouter } from './renderWithRouter';
@@ -6,6 +6,8 @@ import mealsByIngredient from './mocks/mealsByIngredient.mock';
 import * as api from '../services/api';
 import { mealsByName, mealsNotFoundRecipes } from './mocks/mealsByName.mock';
 import { mealsFirstLetter } from './mocks/mealsFirstLetter.mock';
+import { oneMealMock } from './mocks/oneMeal.mock';
+import { oneDrinkMock } from './mocks/oneDrinks.mock';
 
 const SEARCH_TOP_BTN = 'search-top-btn';
 const SEARCH_INPUT = 'search-input';
@@ -150,5 +152,59 @@ describe('Testes do SearchBar', () => {
 
     expect(api.getMealByName).toHaveBeenCalled();
     expect(alertMock).toHaveBeenCalledWith("Sorry, we haven't found any recipes for these filters");
+  });
+
+  test('Redireciona para a página de detalhes se apenas uma comida for encontrada', async () => {
+    vi.spyOn(api, 'getMealByName').mockResolvedValue(oneMealMock);
+
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const nameRadio = screen.getByTestId(SEARCH_NAME_RADIO);
+
+    await user.click(nameRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, 'corba');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/meals/52977');
+    });
+  });
+
+  test('Redireciona para a página de detalhes se apenas uma bebida for encontrada', async () => {
+    vi.spyOn(api, 'getDrinksByName').mockResolvedValue(oneDrinkMock);
+
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const nameRadio = screen.getByTestId(SEARCH_NAME_RADIO);
+
+    await user.click(nameRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, 'avalon');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/drinks/15266');
+    });
+  });
+
+  test('', async () => {
+
   });
 });
