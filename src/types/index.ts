@@ -111,7 +111,7 @@ export type DrinkDetailsType = {
   strImageSource: string | null;
   strImageAttribution: string | null;
   strCreativeCommonsConfirmed: string;
-  dateModified: string;
+  dateModified: string | null;
 };
 
 export type CategoriesType = {
