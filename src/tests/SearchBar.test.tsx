@@ -8,6 +8,9 @@ import { mealsByName, mealsNotFoundRecipes } from './mocks/mealsByName.mock';
 import { mealsFirstLetter } from './mocks/mealsFirstLetter.mock';
 import { oneMealMock } from './mocks/oneMeal.mock';
 import { oneDrinkMock } from './mocks/oneDrinks.mock';
+import { drinksByFirstLetterMock } from './mocks/drinksByFirstLetter.mock';
+import { drinksByIngredientMock } from './mocks/drinksByIngredient.mock';
+import { drinksByNameMock, drinksNotFoundRecipes } from './mocks/drinksByName.mock';
 
 const SEARCH_TOP_BTN = 'search-top-btn';
 const SEARCH_INPUT = 'search-input';
@@ -129,7 +132,30 @@ describe('Testes do SearchBar', () => {
     expect(alertMock).toHaveBeenCalledWith('Your search must have only 1 (one) character');
   });
 
-  test('Exibe um alert caso nenhuma receita seja encontrada', async () => {
+  test('Verifica se busca por firstLetter mostra alert ao digitar mais de uma letra (API BEBIDAS)', async () => {
+    const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const firstLetterRadio = screen.getByTestId(SEARCH_FIRST_LETTER_RADIO);
+
+    await user.click(firstLetterRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, 'aa');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    expect(alertMock).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+  });
+
+  test('Exibe um alert caso nenhuma receita de comida seja encontrada', async () => {
     vi.spyOn(api, 'getMealByName').mockResolvedValue(mealsNotFoundRecipes.meals as any);
     const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
 
@@ -151,6 +177,31 @@ describe('Testes do SearchBar', () => {
     await user.click(searchBtn);
 
     expect(api.getMealByName).toHaveBeenCalled();
+    expect(alertMock).toHaveBeenCalledWith("Sorry, we haven't found any recipes for these filters");
+  });
+
+  test('Exibe um alert caso nenhuma receita de bebida seja encontrada', async () => {
+    vi.spyOn(api, 'getDrinksByName').mockResolvedValue(drinksNotFoundRecipes.drinks);
+    const alertMock = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const nameRadio = screen.getByTestId(SEARCH_NAME_RADIO);
+
+    await user.click(nameRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, 'matheus');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    expect(api.getDrinksByName).toHaveBeenCalled();
     expect(alertMock).toHaveBeenCalledWith("Sorry, we haven't found any recipes for these filters");
   });
 
@@ -204,7 +255,92 @@ describe('Testes do SearchBar', () => {
     });
   });
 
-  test('', async () => {
+  test('Teste se ao clicar no radio Ingrediente faz busca no endpoint correto (API BEBIDAS)', async () => {
+    vi.spyOn(api, 'getDrinksByIngredient').mockResolvedValue(drinksByIngredientMock);
 
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const ingredientRadio = screen.getByTestId(SEARCH_INGREDIENT_RADIO);
+
+    await user.click(ingredientRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, 'ice');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    expect(api.getDrinksByIngredient).toHaveBeenCalledWith('ice');
+  });
+
+  test('Teste se ao clicar no radio Name faz busca no endpoint correto (API BEBIDAS)', async () => {
+    vi.spyOn(api, 'getDrinksByName').mockResolvedValue(drinksByNameMock);
+
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const nameRadio = screen.getByTestId(SEARCH_NAME_RADIO);
+
+    await user.click(nameRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, 'vodka');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    expect(api.getDrinksByName).toHaveBeenCalledWith('vodka');
+  });
+
+  test('Teste se ao clicar no radio FirstLetter faz busca no endpoint correto (API BEBIDAS)', async () => {
+    vi.spyOn(api, 'getDrinksByFirstLetter').mockResolvedValue(drinksByFirstLetterMock);
+
+    const { user } = renderWithRouter(<App />, { route: '/drinks' });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+
+    await user.click(searchHeaderBtn);
+
+    const firstLetterRadio = screen.getByTestId(SEARCH_FIRST_LETTER_RADIO);
+
+    await user.click(firstLetterRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+
+    await user.type(searchInput, '1');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+
+    expect(api.getDrinksByFirstLetter).toHaveBeenCalledWith('1');
+  });
+
+  test('Não faz NENHUMA NOVA busca ao clicar em search sem um filtro selecionado', async () => {
+    const getMealByNameMock = vi.spyOn(api, 'getMealByName').mockResolvedValue([]);
+
+    const { user } = renderWithRouter(<App />, { route: '/meals' });
+
+    await waitFor(() => {
+      expect(getMealByNameMock).toHaveBeenCalledTimes(1);
+    });
+
+    const searchHeaderBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    await user.click(searchHeaderBtn);
+
+    const searchInput = screen.getByTestId(SEARCH_BTN);
+    await user.type(searchInput, 'test');
+
+    const searchBtn = screen.getByTestId(SEARCH_BTN);
+    await user.click(searchBtn);
+    expect(getMealByNameMock).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { DrinkDetailsType } from '../../types';
 
-export const drinksByFirstLetter: DrinkDetailsType[] = [
+export const drinksByFirstLetterMock: DrinkDetailsType[] = [
   {
     idDrink: '15346',
     strDrink: '155 Belmont',

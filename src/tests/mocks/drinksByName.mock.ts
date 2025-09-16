@@ -428,3 +428,7 @@ export const drinksByNameMock: DrinkDetailsType[] = [
     dateModified: '2017-09-07 22:41:40',
   },
 ];
+
+export const drinksNotFoundRecipes = {
+  drinks: [],
+};
