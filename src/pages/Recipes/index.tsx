@@ -108,7 +108,7 @@ function Recipes() {
             >
               <div
                 className="d-flex justify-content-center align-items-center
-                  border border-warning rounded-circle p-3 mb-1"
+                  border border-warning rounded-circle p-2 mb-1"
               >
                 <img
                   src={ iconAll }

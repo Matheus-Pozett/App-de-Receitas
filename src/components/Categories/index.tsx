@@ -6,7 +6,7 @@ type CategoriesProps = {
 
 function Categories({ category, handleCategoryClick, img }: CategoriesProps) {
   return (
-    <div className="col-2 d-flex justify-content-center mb-3">
+    <div className="col-2 d-flex justify-content-center mb-3 p-1">
       <button
         data-testid={ `${category}-category-filter` }
         onClick={ () => handleCategoryClick(category) }
@@ -14,7 +14,7 @@ function Categories({ category, handleCategoryClick, img }: CategoriesProps) {
       >
         <div
           className="d-flex justify-content-center align-items-center border
-          border-warning rounded-circle p-3 mb-1"
+          border-warning rounded-circle p-2 mb-1"
         >
           <img
             src={ img }
