@@ -21,7 +21,7 @@ function AppRoutes() {
       </Route>
       <Route path="/" element={ <Login /> } />
       <Route path="/meals/:id" element={ <RecipeDetails /> } />
-      <Route path="/drinks/:id" element={ <DrinksDetails /> } />
+      <Route path="/drinks/:id" element={ <RecipeDetails /> } />
       <Route path="/meals/:id/in-progress" element={ <MealsDetails /> } />
       <Route path="/drinks/:id/in-progress" element={ <DrinksDetails /> } />
     </Routes>

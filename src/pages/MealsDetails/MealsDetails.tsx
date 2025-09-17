@@ -13,6 +13,7 @@ function MealsDetails({ recipeDetail }: MealsDetailsProps) {
       const measure = recipeDetail[`strMeasure${ingredientNumber}` as keyof MealDetailsAPI];
       return { ingredient: value, measure };
     });
+
   const getYoutubeEmbedUrl = (url: string | null) => {
     if (!url) {
       return '';
