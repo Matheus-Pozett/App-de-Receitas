@@ -4,10 +4,9 @@ import Recipes from '../pages/Recipes';
 import Profile from '../pages/Profile';
 import DoneRecipes from '../pages/DoneRecipes';
 import FavoriteRecipes from '../pages/FavoriteRecipe';
-// import MealsDetails from '../pages/MealsDetails/MealsDetails';
-// import DrinksDetails from '../pages/DrinksDetails';
 import Login from '../pages/Login';
 import RecipeDetails from '../pages/RecipeDetails';
+import RecipeInProgress from '../pages/RecipeInProgress';
 
 function AppRoutes() {
   return (
@@ -22,8 +21,8 @@ function AppRoutes() {
       <Route path="/" element={ <Login /> } />
       <Route path="/meals/:id" element={ <RecipeDetails /> } />
       <Route path="/drinks/:id" element={ <RecipeDetails /> } />
-      {/* <Route path="/meals/:id/in-progress" element={ <MealsDetails /> } />
-      <Route path="/drinks/:id/in-progress" element={ <DrinksDetails /> } /> */}
+      <Route path="/meals/:id/in-progress" element={ <RecipeInProgress /> } />
+      <Route path="/drinks/:id/in-progress" element={ <RecipeInProgress /> } />
     </Routes>
   );
 }

@@ -18,8 +18,8 @@ import cocoaIcon from '../../images/cocoaIcon.svg';
 import ordinaryIcon from '../../images/ordinaryIcon.svg';
 import shakeIcon from '../../images/shakeIcon.svg';
 import otherIcon from '../../images/otherIcon.svg';
-import Meals from '../Meals';
-import Drinks from '../Drinks';
+import Meals from '../../components/Meals';
+import Drinks from '../../components/Drinks';
 
 const categoryIcons: { [key: string]: string } = {
   Beef: beefIcon,

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import MealsDetails from '../MealsDetails/MealsDetails';
+import MealsDetails from '../MealsDetails';
 import { fetchDrinksById,
   fetchMealsById,
   getDrinksByName,
