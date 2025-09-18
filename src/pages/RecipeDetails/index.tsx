@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import MealsDetails from '../MealsDetails';
+import MealsDetails from '../../components/MealsDetails';
 import { fetchDrinksById,
   fetchMealsById,
   getDrinksByName,
   getMealByName } from '../../services/api';
 import { DrinkDetailsType, MealDetailsAPI } from '../../types';
-import DrinksDetails from '../DrinksDetails';
+import DrinksDetails from '../../components/DrinksDetails';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState<MealDetailsAPI | DrinkDetailsType | null>(null);
@@ -15,6 +15,7 @@ function RecipeDetails() {
   const [drinkRecommendations, setDrinkRecommendations] = useState<DrinkDetailsType[]>([]);
   const { pathname } = useLocation();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const isMealsPage = pathname.includes('/meals');
 
@@ -50,6 +51,14 @@ function RecipeDetails() {
     getRecommendations();
   }, [isMealsPage]);
 
+  const handleStartRecipe = () => {
+    if (isMealsPage) {
+      navigate(`/meals/${id}/in-progress`);
+    } else {
+      navigate(`/drinks/${id}/in-progress`);
+    }
+  };
+
   if (!recipe) {
     return <div>Loading...</div>;
   }
@@ -60,11 +69,13 @@ function RecipeDetails() {
         <MealsDetails
           recipeDetail={ recipe as MealDetailsAPI }
           recommendations={ drinkRecommendations }
+          handleStartRecipe={ handleStartRecipe }
         />
       ) : (
         <DrinksDetails
           recipeDetail={ recipe as DrinkDetailsType }
           recommendations={ mealRecommendations }
+          handleStartRecipe={ handleStartRecipe }
         />
       )}
 

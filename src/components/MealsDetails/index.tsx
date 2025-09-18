@@ -4,9 +4,10 @@ import { DrinkDetailsType, MealDetailsAPI } from '../../types';
 type MealsDetailsProps = {
   recipeDetail: MealDetailsAPI;
   recommendations: DrinkDetailsType[];
+  handleStartRecipe: () => void;
 };
 
-function MealsDetails({ recipeDetail, recommendations }: MealsDetailsProps) {
+function MealsDetails({ recipeDetail, recommendations, handleStartRecipe }: MealsDetailsProps) {
   const ingredientsList = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strIngredient') && value)
     .map(([key, value]) => {
@@ -118,6 +119,7 @@ function MealsDetails({ recipeDetail, recommendations }: MealsDetailsProps) {
         <button
           data-testid="start-recipe-btn"
           className="btn btn-warning fw-bold text-white py-3"
+          onClick={ handleStartRecipe }
         >
           START RECIPE
         </button>
