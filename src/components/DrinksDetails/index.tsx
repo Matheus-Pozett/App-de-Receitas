@@ -1,13 +1,29 @@
 /* eslint-disable max-len */
 import { DrinkDetailsType, MealDetailsAPI } from '../../types';
+import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 type DrinksDetailsProps = {
   recipeDetail: DrinkDetailsType
   recommendations: MealDetailsAPI[];
   handleStartRecipe: () => void;
+  handleShare: () => void;
+  isLinkCopied: boolean;
+  handleFavorite: () => void;
+  isFavorite: boolean;
 };
 
-function DrinksDetails({ recipeDetail, recommendations, handleStartRecipe }: DrinksDetailsProps) {
+function DrinksDetails(
+  { recipeDetail,
+    recommendations,
+    handleStartRecipe,
+    handleShare,
+    isLinkCopied,
+    handleFavorite,
+    isFavorite,
+  }: DrinksDetailsProps,
+) {
   const ingredientsList = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strIngredient') && value)
     .map(([key, value]) => {
@@ -17,7 +33,8 @@ function DrinksDetails({ recipeDetail, recommendations, handleStartRecipe }: Dri
     });
 
   return (
-    <div className="container pb-5">
+    <div className="container pb-5" style={ { paddingBottom: '120px' } }>
+      {/* Imagem + título + botões */}
       <div className="position-relative w-100">
         <img
           src={ recipeDetail.strDrinkThumb }
@@ -31,17 +48,43 @@ function DrinksDetails({ recipeDetail, recommendations, handleStartRecipe }: Dri
         />
         <h1
           data-testid="recipe-title"
-          className="position-absolute top-50 start-50 translate-middle text-white fw-bold
-            text-center"
+          className="position-absolute top-50 start-50 translate-middle text-white fw-bold text-center"
           style={ { fontSize: '1.5rem', textShadow: '1px 1px 4px rgba(0,0,0,0.8)' } }
         >
           {recipeDetail.strDrink}
         </h1>
+
+        {/* Botões favoritos e compartilhar */}
+        <div className="position-absolute top-0 end-0 d-flex gap-2 p-2">
+          <button
+            data-testid="share-btn"
+            onClick={ handleShare }
+            className="btn btn-light p-2 rounded-circle"
+            aria-label="share"
+          >
+            <img src={ shareIcon } alt="compartilhar" style={ { width: '20px' } } />
+          </button>
+          <button
+            onClick={ handleFavorite }
+            className="btn btn-light p-2 rounded-circle"
+            aria-label="favorite"
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favoritar"
+              style={ { width: '20px' } }
+            />
+          </button>
+        </div>
       </div>
+
+      {isLinkCopied && <p className="mt-2 text-success">Link copied!</p>}
 
       <p data-testid="recipe-category" className="mt-2 fw-semibold text-secondary">
         {recipeDetail.strAlcoholic}
       </p>
+
       <h2 className="mt-4 fw-bold">Ingredients</h2>
       <ul className="list-group mb-3">
         {ingredientsList.map((item, index) => (
@@ -102,15 +145,22 @@ function DrinksDetails({ recipeDetail, recommendations, handleStartRecipe }: Dri
         ))}
       </div>
 
-      <div className="d-grid mt-3">
-        <button
-          data-testid="start-recipe-btn"
-          className="btn btn-warning fw-bold text-white py-3"
-          onClick={ handleStartRecipe }
-        >
-          START RECIPE
-        </button>
-      </div>
+      {/* Botão fixo no rodapé (o próprio botão tem position: fixed pra passar o teste) */}
+      <button
+        data-testid="start-recipe-btn"
+        className="btn btn-warning fw-bold text-white py-3"
+        onClick={ handleStartRecipe }
+        style={ {
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 1050,
+          boxShadow: '0 -2px 6px rgba(0,0,0,0.1)',
+        } }
+      >
+        START RECIPE
+      </button>
     </div>
   );
 }

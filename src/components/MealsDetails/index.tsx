@@ -1,13 +1,29 @@
 /* eslint-disable max-len */
 import { DrinkDetailsType, MealDetailsAPI } from '../../types';
+import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 type MealsDetailsProps = {
   recipeDetail: MealDetailsAPI;
   recommendations: DrinkDetailsType[];
   handleStartRecipe: () => void;
+  handleShare: () => void;
+  isLinkCopied: boolean;
+  handleFavorite: () => void;
+  isFavorite: boolean;
 };
 
-function MealsDetails({ recipeDetail, recommendations, handleStartRecipe }: MealsDetailsProps) {
+function MealsDetails(
+  { recipeDetail,
+    recommendations,
+    handleStartRecipe,
+    handleShare,
+    isLinkCopied,
+    handleFavorite,
+    isFavorite,
+  }: MealsDetailsProps,
+) {
   const ingredientsList = Object.entries(recipeDetail)
     .filter(([key, value]) => key.startsWith('strIngredient') && value)
     .map(([key, value]) => {
@@ -23,7 +39,8 @@ function MealsDetails({ recipeDetail, recommendations, handleStartRecipe }: Meal
   };
 
   return (
-    <div className="container pb-5">
+    <div className="container pb-5" style={ { paddingBottom: '120px' } }>
+      {/* Imagem + título + botões */}
       <div className="position-relative w-100">
         <img
           src={ recipeDetail.strMealThumb }
@@ -35,6 +52,7 @@ function MealsDetails({ recipeDetail, recommendations, handleStartRecipe }: Meal
             objectFit: 'cover',
           } }
         />
+        {/* Nome da receita */}
         <h1
           data-testid="recipe-title"
           className="position-absolute top-50 start-50 translate-middle text-white fw-bold text-center"
@@ -42,7 +60,33 @@ function MealsDetails({ recipeDetail, recommendations, handleStartRecipe }: Meal
         >
           {recipeDetail.strMeal}
         </h1>
+
+        {/* Botões favoritos e compartilhar */}
+        <div className="position-absolute top-0 end-0 d-flex gap-2 p-2">
+          <button
+            data-testid="share-btn"
+            onClick={ handleShare }
+            className="btn btn-light p-2 rounded-circle"
+            aria-label="share"
+          >
+            <img src={ shareIcon } alt="compartilhar" style={ { width: '20px' } } />
+          </button>
+          <button
+            onClick={ handleFavorite }
+            className="btn btn-light p-2 rounded-circle"
+            aria-label="favorite"
+          >
+            <img
+              data-testid="favorite-btn"
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favoritar"
+              style={ { width: '20px' } }
+            />
+          </button>
+        </div>
       </div>
+
+      {isLinkCopied && <p className="mt-2 text-success">Link copied!</p>}
 
       <p data-testid="recipe-category" className="mt-2 fw-semibold text-secondary">
         {recipeDetail.strCategory}
@@ -115,15 +159,22 @@ function MealsDetails({ recipeDetail, recommendations, handleStartRecipe }: Meal
         ))}
       </div>
 
-      <div className="d-grid mt-3">
-        <button
-          data-testid="start-recipe-btn"
-          className="btn btn-warning fw-bold text-white py-3"
-          onClick={ handleStartRecipe }
-        >
-          START RECIPE
-        </button>
-      </div>
+      {/* Botão fixo no rodapé (o próprio botão tem position: fixed pra passar o teste) */}
+      <button
+        data-testid="start-recipe-btn"
+        className="btn btn-warning fw-bold text-white py-3"
+        onClick={ handleStartRecipe }
+        style={ {
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 1050,
+          boxShadow: '0 -2px 6px rgba(0,0,0,0.1)',
+        } }
+      >
+        START RECIPE
+      </button>
     </div>
   );
 }

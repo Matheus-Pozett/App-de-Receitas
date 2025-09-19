@@ -118,5 +118,15 @@ export type CategoriesType = {
   strCategory: string
 };
 
+export type FavoritesType = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+};
+
 // eslint-disable-next-line max-len
 export type Recipe = MealSummary | MealDetailsAPI | DrinksSummary | DrinkDetailsType;
