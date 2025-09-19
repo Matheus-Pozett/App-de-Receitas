@@ -3,7 +3,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { render } from '@testing-library/react';
 import App from '../App';
 import { renderWithRouter } from './renderWithRouter';
-import { Header } from '../components/Header';
+import Header from '../components/Header';
+
+const PROFILE_TEST_ID = 'profile-top-btn';
 
 describe('Componente Header', () => {
   test('Testa se elementos estão presentes no header', () => {
@@ -16,8 +18,8 @@ describe('Componente Header', () => {
     const header = screen.getByRole('banner');
     const logoApp = screen.getByRole('img', { name: /icone do app/i });
     const nameApp = screen.getByRole('img', { name: /nome do site/i });
-    const profileBtn = screen.getByRole('link', { name: /Profile/i });
-    const searchBtn = screen.getByRole('button', { name: /pesquisar/i });
+    const profileBtn = screen.getByTestId(PROFILE_TEST_ID);
+    const searchBtn = screen.getByTestId('search-top-btn');
 
     expect(header).toBeInTheDocument();
     expect(logoApp).toBeInTheDocument();
@@ -31,8 +33,8 @@ describe('Componente Header', () => {
 
     const logoApp = screen.getByRole('img', { name: /icone do app/i });
     const nameApp = screen.getByRole('img', { name: /nome do site/i });
-    const profileBtn = screen.getByRole('link', { name: /Profile/i });
-    const searchBtn = screen.getByRole('button', { name: /pesquisar/i });
+    const profileBtn = screen.getByTestId(PROFILE_TEST_ID);
+    const searchBtn = screen.getByTestId('search-top-btn');
 
     expect(logoApp).toBeInTheDocument();
     expect(nameApp).toBeInTheDocument();
@@ -43,14 +45,14 @@ describe('Componente Header', () => {
   test('Verifica se o título na rota /meals é Meals', () => {
     renderWithRouter(<App />, { route: '/meals' });
 
-    const title = screen.getByRole('heading', { name: /meals/i });
+    const title = screen.getByTestId('page-title');
     expect(title).toHaveTextContent(/meals/i);
   });
 
   test('Verifica se o título na rota /drinks é Drinks', () => {
     renderWithRouter(<App />, { route: '/drinks' });
 
-    const title = screen.getByRole('heading', { name: /drinks/i });
+    const title = screen.getByTestId('page-title');
     expect(title).toHaveTextContent(/drinks/i);
   });
 
@@ -65,7 +67,7 @@ describe('Componente Header', () => {
   test('Testa se redireciona para rota /profile ao clicar no botão profile', async () => {
     const { user } = renderWithRouter(<App />, { route: '/meals' });
 
-    const profileBtn = screen.getByRole('link', { name: /Profile/i });
+    const profileBtn = screen.getByTestId(PROFILE_TEST_ID);
 
     await user.click(profileBtn);
 
