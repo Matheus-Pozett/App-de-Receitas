@@ -34,7 +34,6 @@ function DrinksDetails(
 
   return (
     <div className="container pb-5" style={ { paddingBottom: '120px' } }>
-      {/* Imagem + título + botões */}
       <div className="position-relative w-100">
         <img
           src={ recipeDetail.strDrinkThumb }
@@ -54,7 +53,6 @@ function DrinksDetails(
           {recipeDetail.strDrink}
         </h1>
 
-        {/* Botões favoritos e compartilhar */}
         <div className="position-absolute top-0 end-0 d-flex gap-2 p-2">
           <button
             data-testid="share-btn"
@@ -145,7 +143,6 @@ function DrinksDetails(
         ))}
       </div>
 
-      {/* Botão fixo no rodapé (o próprio botão tem position: fixed pra passar o teste) */}
       <button
         data-testid="start-recipe-btn"
         className="btn btn-warning fw-bold text-white py-3"
