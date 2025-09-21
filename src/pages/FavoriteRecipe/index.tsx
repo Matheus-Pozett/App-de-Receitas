@@ -1,22 +1,78 @@
 import DrinkFavoriteCard from '../../components/DrinkFavoriteCard';
 import MealFavoriteCard from '../../components/MealFavoriteCard';
 import { useFavorites } from '../../context/FavoritesContext';
+import { FavoritesType } from '../../types';
+import allIcon from '../../images/allFavoriteIcon.svg';
+import mealsIcon from '../../images/icone-prato.svg';
+import drinksIcon from '../../images/drinksIcon.svg';
 
 function FavoriteRecipes() {
-  const { favorites } = useFavorites();
+  const { favorites, handleFavorite } = useFavorites();
+
+  const handleUnfavorite = (recipe: FavoritesType) => {
+    handleFavorite(recipe, recipe.type === 'meal');
+  };
+
   return (
-    <div>
-      <div>
-        <button data-testid="filter-by-all-btn">All</button>
-        <button data-testid="filter-by-meal-btn">Meals</button>
-        <button data-testid="filter-by-drink-btn">Drinks</button>
+    <div className="container" style={ { paddingBottom: '100px' } }>
+      <div className="d-flex justify-content-center gap-4 my-3 text-center">
+        <div>
+          <button
+            data-testid="filter-by-all-btn"
+            className="btn btn-light rounded-circle d-flex justify-content-center
+            align-items-center mx-auto"
+            style={ { width: '70px', height: '70px' } }
+          >
+            <img src={ allIcon } alt="botão All" style={ { width: '28px' } } />
+          </button>
+          <p className="mt-2 small fw-semibold">All</p>
+        </div>
+
+        <div>
+          <button
+            data-testid="filter-by-meal-btn"
+            className="btn btn-light rounded-circle d-flex justify-content-center
+            align-items-center mx-auto"
+            style={ { width: '70px', height: '70px' } }
+          >
+            <img src={ mealsIcon } alt="botão de comidas" style={ { width: '28px' } } />
+          </button>
+          <p className="mt-2 small fw-semibold">Meal</p>
+        </div>
+
+        <div>
+          <button
+            data-testid="filter-by-drink-btn"
+            className="btn btn-light rounded-circle d-flex justify-content-center
+            align-items-center mx-auto"
+            style={ { width: '70px', height: '70px' } }
+          >
+            <img src={ drinksIcon } alt="botão de bebidas" style={ { width: '28px' } } />
+          </button>
+          <p className="mt-2 small fw-semibold">Drinks</p>
+        </div>
       </div>
-      <div>
+
+      <div className="d-flex flex-column gap-3">
         {favorites.map((fav, index) => {
           if (fav.type === 'meal') {
-            return <MealFavoriteCard fav={ fav } index={ index } key={ fav.id } />;
+            return (
+              <MealFavoriteCard
+                fav={ fav }
+                index={ index }
+                key={ fav.id }
+                handleUnfavorite={ handleUnfavorite }
+              />
+            );
           }
-          return <DrinkFavoriteCard fav={ fav } index={ index } key={ fav.id } />;
+          return (
+            <DrinkFavoriteCard
+              fav={ fav }
+              index={ index }
+              key={ fav.id }
+              handleUnfavorite={ handleUnfavorite }
+            />
+          );
         })}
       </div>
     </div>

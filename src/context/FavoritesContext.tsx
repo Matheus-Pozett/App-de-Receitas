@@ -4,8 +4,9 @@ import { DrinkDetailsType, FavoritesType, MealDetailsAPI } from '../types';
 
 type FavoriteContextType = {
   favorites: FavoritesType[];
-  handleFavorite: (recipe: MealDetailsAPI | DrinkDetailsType, isMealsPage: boolean) => void;
+  handleFavorite: (recipe: MealDetailsAPI | DrinkDetailsType | FavoritesType, isMealsPage: boolean) => void;
   isRecipeFavorite: (id: string) => boolean;
+  setFavorites: React.Dispatch<React.SetStateAction<FavoritesType[]>>;
 };
 
 const FavoriteContext = createContext<FavoriteContextType | undefined>(undefined);
@@ -18,15 +19,17 @@ export function FavoriteContextProvider({ children }: { children: React.ReactNod
     setFavorites(storedFavorites);
   }, []);
 
-  const handleFavorite = (recipe: MealDetailsAPI | DrinkDetailsType, isMealsPage: boolean) => {
-    let newFavorite: FavoritesType;
+  const handleFavorite = (recipe: MealDetailsAPI | DrinkDetailsType | FavoritesType, isMealsPage: boolean) => {
+    let favoriteToToggle: FavoritesType;
 
-    if (isMealsPage) {
+    if ('nationality' in recipe && 'alcoholicOrNot' in recipe) {
+      favoriteToToggle = recipe as FavoritesType;
+    } else if (isMealsPage) {
       const meal = recipe as MealDetailsAPI;
-      newFavorite = {
+      favoriteToToggle = {
         id: meal.idMeal,
         type: 'meal',
-        nationality: meal.strArea,
+        nationality: meal.strArea || '',
         category: meal.strCategory,
         alcoholicOrNot: '',
         name: meal.strMeal,
@@ -34,24 +37,24 @@ export function FavoriteContextProvider({ children }: { children: React.ReactNod
       };
     } else {
       const drink = recipe as DrinkDetailsType;
-      newFavorite = {
+      favoriteToToggle = {
         id: drink.idDrink,
         type: 'drink',
         nationality: '',
         category: drink.strCategory,
-        alcoholicOrNot: drink.strAlcoholic,
+        alcoholicOrNot: drink.strAlcoholic || '',
         name: drink.strDrink,
         image: drink.strDrinkThumb,
       };
     }
 
-    const alreadyExists = favorites.some((fav) => fav.id === newFavorite.id);
+    const alreadyExists = favorites.some((fav) => fav.id === favoriteToToggle.id);
     let updatedFavorites;
 
     if (alreadyExists) {
-      updatedFavorites = favorites.filter((fav) => fav.id !== newFavorite.id);
+      updatedFavorites = favorites.filter((fav) => fav.id !== favoriteToToggle.id);
     } else {
-      updatedFavorites = [...favorites, newFavorite];
+      updatedFavorites = [...favorites, favoriteToToggle];
     }
 
     setFavorites(updatedFavorites);
@@ -66,6 +69,7 @@ export function FavoriteContextProvider({ children }: { children: React.ReactNod
     favorites,
     handleFavorite,
     isRecipeFavorite,
+    setFavorites,
   }), [favorites]);
 
   return (
