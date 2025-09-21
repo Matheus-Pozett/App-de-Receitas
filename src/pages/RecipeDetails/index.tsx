@@ -9,16 +9,17 @@ import { fetchDrinksById,
 import { DrinkDetailsType, MealDetailsAPI } from '../../types';
 import DrinksDetails from '../../components/DrinksDetails';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useShare } from '../../hooks/useShare';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState<MealDetailsAPI | DrinkDetailsType | null>(null);
   const [mealRecommendations, setMealRecommendations] = useState<MealDetailsAPI[]>([]);
   const [drinkRecommendations, setDrinkRecommendations] = useState<DrinkDetailsType[]>([]);
-  const [isLinkCopied, setIsLinkCopied] = useState(false);
   const { pathname } = useLocation();
   const { handleFavorite, isRecipeFavorite } = useFavorites();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { handleShare, isLinkCopied } = useShare();
 
   const isMealsPage = pathname.includes('/meals');
 
@@ -65,13 +66,9 @@ function RecipeDetails() {
     }
   };
 
-  const handleShare = () => {
+  const handleClickShare = () => {
     const url = `http://localhost:3000${pathname}`;
-    navigator.clipboard.writeText(url)
-      .then(() => {
-        setIsLinkCopied(true);
-        setTimeout(() => setIsLinkCopied(false), 3000);
-      });
+    handleShare(url);
   };
 
   const handleFavorites = () => {
@@ -90,7 +87,7 @@ function RecipeDetails() {
           recipeDetail={ recipe as MealDetailsAPI }
           recommendations={ drinkRecommendations }
           handleStartRecipe={ handleStartRecipe }
-          handleShare={ handleShare }
+          handleShare={ handleClickShare }
           isLinkCopied={ isLinkCopied }
           handleFavorite={ handleFavorites }
           isFavorite={ isCurrentlyFavorite }
@@ -100,7 +97,7 @@ function RecipeDetails() {
           recipeDetail={ recipe as DrinkDetailsType }
           recommendations={ mealRecommendations }
           handleStartRecipe={ handleStartRecipe }
-          handleShare={ handleShare }
+          handleShare={ handleClickShare }
           isLinkCopied={ isLinkCopied }
           handleFavorite={ handleFavorites }
           isFavorite={ isCurrentlyFavorite }
