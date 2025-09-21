@@ -35,4 +35,5 @@ const useRecipes = () => {
 
   return context;
 };
-export { RecipeContext, RecipesContextProvider, useRecipes };
+
+export { RecipesContextProvider, useRecipes };

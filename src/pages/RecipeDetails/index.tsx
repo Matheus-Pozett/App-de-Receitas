@@ -6,16 +6,17 @@ import { fetchDrinksById,
   fetchMealsById,
   getDrinksByName,
   getMealByName } from '../../services/api';
-import { DrinkDetailsType, FavoritesType, MealDetailsAPI } from '../../types';
+import { DrinkDetailsType, MealDetailsAPI } from '../../types';
 import DrinksDetails from '../../components/DrinksDetails';
+import { useFavorites } from '../../context/FavoritesContext';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState<MealDetailsAPI | DrinkDetailsType | null>(null);
   const [mealRecommendations, setMealRecommendations] = useState<MealDetailsAPI[]>([]);
   const [drinkRecommendations, setDrinkRecommendations] = useState<DrinkDetailsType[]>([]);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const { pathname } = useLocation();
+  const { handleFavorite, isRecipeFavorite } = useFavorites();
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -53,13 +54,8 @@ function RecipeDetails() {
     getRecommendations();
   }, [isMealsPage]);
 
-  useEffect(() => {
-    if (recipe) {
-      const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-      const recipeId = (recipe as MealDetailsAPI).idMeal || (recipe as DrinkDetailsType).idDrink;
-      setIsFavorite(favoriteRecipes.some((fav: FavoritesType) => fav.id === recipeId));
-    }
-  }, [recipe]);
+  const recipeId = recipe ? (recipe as MealDetailsAPI).idMeal || (recipe as DrinkDetailsType).idDrink : null;
+  const isCurrentlyFavorite = recipeId ? isRecipeFavorite(recipeId) : false;
 
   const handleStartRecipe = () => {
     if (isMealsPage) {
@@ -78,53 +74,11 @@ function RecipeDetails() {
       });
   };
 
-  const handleFavorite = () => {
+  const handleFavorites = () => {
     if (!recipe) return;
 
-    const oldFavorites: FavoritesType[] = JSON.parse(
-      localStorage.getItem('favoriteRecipes') || '[]',
-    );
-
-    let newFavorite: FavoritesType;
-
-    if (isMealsPage) {
-      const meal = recipe as MealDetailsAPI;
-      newFavorite = {
-        id: meal.idMeal,
-        type: 'meal',
-        nationality: meal.strArea,
-        category: meal.strCategory,
-        alcoholicOrNot: '',
-        name: meal.strMeal,
-        image: meal.strMealThumb,
-      };
-    } else {
-      const drink = recipe as DrinkDetailsType;
-      newFavorite = {
-        id: drink.idDrink,
-        type: 'drink',
-        nationality: '',
-        category: drink.strCategory,
-        alcoholicOrNot: drink.strAlcoholic,
-        name: drink.strDrink,
-        image: drink.strDrinkThumb,
-      };
-    }
-
-    const alreadyExists = oldFavorites.some((fav) => fav.id === newFavorite.id);
-    let newFavorites;
-
-    if (alreadyExists) {
-      newFavorites = oldFavorites.filter((fav) => fav.id !== newFavorite.id);
-      setIsFavorite(false);
-    } else {
-      newFavorites = [...oldFavorites, newFavorite];
-      setIsFavorite(true);
-    }
-
-    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavorites));
+    handleFavorite(recipe, isMealsPage);
   };
-
   if (!recipe) {
     return <div>Loading...</div>;
   }
@@ -138,8 +92,8 @@ function RecipeDetails() {
           handleStartRecipe={ handleStartRecipe }
           handleShare={ handleShare }
           isLinkCopied={ isLinkCopied }
-          handleFavorite={ handleFavorite }
-          isFavorite={ isFavorite }
+          handleFavorite={ handleFavorites }
+          isFavorite={ isCurrentlyFavorite }
         />
       ) : (
         <DrinksDetails
@@ -148,8 +102,8 @@ function RecipeDetails() {
           handleStartRecipe={ handleStartRecipe }
           handleShare={ handleShare }
           isLinkCopied={ isLinkCopied }
-          handleFavorite={ handleFavorite }
-          isFavorite={ isFavorite }
+          handleFavorite={ handleFavorites }
+          isFavorite={ isCurrentlyFavorite }
         />
       )}
 
