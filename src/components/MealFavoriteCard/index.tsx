@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { Link } from 'react-router-dom';
 import { FavoritesType } from '../../types';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -20,33 +21,36 @@ function MealFavoriteCard({ fav, index, handleUnfavorite }: MealFavoriteCardProp
 
   return (
     <div
-      key={ fav.id }
       className="card d-flex flex-row shadow-sm border-0"
       style={ { borderRadius: '12px' } }
     >
-      <img
-        src={ fav.image }
-        alt={ `imagem da receita ${fav.name}` }
-        data-testid={ `${index}-horizontal-image` }
-        className="img-fluid"
-        style={ {
-          width: '140px',
-          height: '120px',
-          objectFit: 'cover',
-          borderTopLeftRadius: '12px',
-          borderBottomLeftRadius: '12px',
-        } }
-      />
+      <Link to={ `/meals/${fav.id}` }>
+        <img
+          src={ fav.image }
+          alt={ `imagem da receita ${fav.name}` }
+          data-testid={ `${index}-horizontal-image` }
+          className="img-fluid"
+          style={ {
+            width: '140px',
+            height: '120px',
+            objectFit: 'cover',
+            borderTopLeftRadius: '12px',
+            borderBottomLeftRadius: '12px',
+          } }
+        />
+      </Link>
 
       <div className="card-body d-flex flex-column justify-content-between">
         <div>
-          <p
-            data-testid={ `${index}-horizontal-name` }
-            className="fw-bold mb-1"
-            style={ { fontSize: '1rem' } }
-          >
-            {fav.name}
-          </p>
+          <Link to={ `/meals/${fav.id}` }>
+            <p
+              data-testid={ `${index}-horizontal-name` }
+              className="fw-bold mb-1"
+              style={ { fontSize: '1rem' } }
+            >
+              {fav.name}
+            </p>
+          </Link>
           <p
             data-testid={ `${index}-horizontal-top-text` }
             className="text-muted small mb-2"
