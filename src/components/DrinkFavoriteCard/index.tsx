@@ -1,6 +1,7 @@
 import { FavoritesType } from '../../types';
 import shareIcon from '../../images/shareIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import { useShare } from '../../hooks/useShare';
 
 type MealFavoriteCardProps = {
   fav: FavoritesType
@@ -8,6 +9,13 @@ type MealFavoriteCardProps = {
 };
 
 function DrinkFavoriteCard({ fav, index }: MealFavoriteCardProps) {
+  const { handleShare, isLinkCopied } = useShare();
+
+  const handleClickShare = () => {
+    const url = `http://localhost:3000/drinks/${fav.id}`;
+    handleShare(url);
+  };
+
   return (
     <div>
       <div key={ fav.id }>
@@ -19,7 +27,7 @@ function DrinkFavoriteCard({ fav, index }: MealFavoriteCardProps) {
         <p data-testid={ `${index}-horizontal-name` }>{fav.name}</p>
         <p data-testid={ `${index}-horizontal-top-text` }>{fav.alcoholicOrNot}</p>
         <div>
-          <button>
+          <button onClick={ handleClickShare }>
             <img
               src={ shareIcon }
               alt="botão de compartilhar"
@@ -34,6 +42,7 @@ function DrinkFavoriteCard({ fav, index }: MealFavoriteCardProps) {
             />
           </button>
         </div>
+        {isLinkCopied && <p>Link copied!</p>}
       </div>
     </div>
   );
