@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import DrinkFavoriteCard from '../../components/DrinkFavoriteCard';
 import MealFavoriteCard from '../../components/MealFavoriteCard';
 import { useFavorites } from '../../context/FavoritesContext';
@@ -8,16 +9,25 @@ import drinksIcon from '../../images/drinksIcon.svg';
 
 function FavoriteRecipes() {
   const { favorites, handleFavorite } = useFavorites();
+  const [filterButton, setFilterButton] = useState('all');
 
   const handleUnfavorite = (recipe: FavoritesType) => {
     handleFavorite(recipe, recipe.type === 'meal');
   };
+
+  const filteredFavorites = favorites.filter((fav) => {
+    if (filterButton === 'all') {
+      return true;
+    }
+    return fav.type === filterButton;
+  });
 
   return (
     <div className="container" style={ { paddingBottom: '100px' } }>
       <div className="d-flex justify-content-center gap-4 my-3 text-center">
         <div>
           <button
+            onClick={ () => setFilterButton('all') }
             data-testid="filter-by-all-btn"
             className="btn btn-light rounded-circle d-flex justify-content-center
             align-items-center mx-auto"
@@ -31,6 +41,7 @@ function FavoriteRecipes() {
         <div>
           <button
             data-testid="filter-by-meal-btn"
+            onClick={ () => setFilterButton('meal') }
             className="btn btn-light rounded-circle d-flex justify-content-center
             align-items-center mx-auto"
             style={ { width: '70px', height: '70px' } }
@@ -42,6 +53,7 @@ function FavoriteRecipes() {
 
         <div>
           <button
+            onClick={ () => setFilterButton('drink') }
             data-testid="filter-by-drink-btn"
             className="btn btn-light rounded-circle d-flex justify-content-center
             align-items-center mx-auto"
@@ -54,7 +66,7 @@ function FavoriteRecipes() {
       </div>
 
       <div className="d-flex flex-column gap-3">
-        {favorites.map((fav, index) => {
+        {filteredFavorites.map((fav, index) => {
           if (fav.type === 'meal') {
             return (
               <MealFavoriteCard
