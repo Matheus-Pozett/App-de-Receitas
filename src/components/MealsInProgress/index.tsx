@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+import { useState, useEffect } from 'react'; // 1. Importe o useEffect
 import shareIcon from '../../images/shareIcon.svg';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 // import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -8,6 +10,49 @@ type MealsInProgressProps = {
 };
 
 function MealsInProgress({ recipe }: MealsInProgressProps) {
+  const { idMeal } = recipe;
+
+  const ingredientsList = Object.entries(recipe)
+    .filter(([key, value]) => key.startsWith('strIngredient') && value)
+    .map(([key, value]) => {
+      const ingredientNumber = key.replace('strIngredient', '');
+      const measure = recipe[`strMeasure${ingredientNumber}` as keyof MealDetailsAPI];
+      return { ingredient: value, measure };
+    });
+
+  const [checkedIngredients, setCheckedIngredients] = useState<string[]>([]);
+
+  useEffect(() => {
+    const inProgressRecipes = JSON.parse(
+      localStorage.getItem('inProgressRecipes') || '{}',
+    );
+    if (inProgressRecipes.meals && inProgressRecipes.meals[idMeal]) {
+      setCheckedIngredients(inProgressRecipes.meals[idMeal]);
+    }
+  }, [idMeal]);
+
+  const handleCheckboxChange = (ingredientName: string) => {
+    let updatedChecked: string[];
+    if (checkedIngredients.includes(ingredientName)) {
+      updatedChecked = checkedIngredients.filter((item) => item !== ingredientName);
+    } else {
+      updatedChecked = [...checkedIngredients, ingredientName];
+    }
+    setCheckedIngredients(updatedChecked);
+
+    const inProgressRecipes = JSON.parse(
+      localStorage.getItem('inProgressRecipes') || '{}',
+    );
+    const updatedInProgress = {
+      ...inProgressRecipes,
+      meals: {
+        ...inProgressRecipes.meals,
+        [idMeal]: updatedChecked,
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(updatedInProgress));
+  };
+
   return (
     <div>
       <img
@@ -36,6 +81,27 @@ function MealsInProgress({ recipe }: MealsInProgressProps) {
           />
         </button>
       </div>
+
+      <h3>Ingredients</h3>
+      {ingredientsList.map((item, index) => (
+        <label
+          key={ index }
+          data-testid={ `${index}-ingredient-step` }
+          style={ {
+            textDecoration: checkedIngredients.includes(item.ingredient as string)
+              ? 'line-through solid rgb(0, 0, 0)'
+              : 'none',
+          } }
+        >
+          <input
+            type="checkbox"
+            checked={ checkedIngredients.includes(item.ingredient as string) }
+            onChange={ () => handleCheckboxChange(item.ingredient as string) }
+          />
+          {`${item.ingredient} - ${item.measure}`}
+        </label>
+      ))}
+
       <p data-testid="recipe-category">{recipe.strCategory}</p>
       <p data-testid="instructions">{recipe.strInstructions}</p>
       <button data-testid="finish-recipe-btn">Finish Recipe</button>

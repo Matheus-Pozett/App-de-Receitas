@@ -128,5 +128,17 @@ export type FavoritesType = {
   image: string,
 };
 
+export type DoneRecipesType = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+  doneDate: string,
+  tags: string[]
+};
+
 // eslint-disable-next-line max-len
 export type Recipe = MealSummary | MealDetailsAPI | DrinksSummary | DrinkDetailsType;
