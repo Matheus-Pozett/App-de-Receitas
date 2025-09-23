@@ -61,6 +61,12 @@ function RecipeInProgress() {
 
   const handleFinishRecipe = () => {
     if (!recipe) return;
+
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
     const doneRecipes: DoneRecipesType[] = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
     const newDoneRecipe: DoneRecipesType = {
       id: recipeId,
@@ -70,7 +76,7 @@ function RecipeInProgress() {
       alcoholicOrNot: (recipe as DrinkDetailsType).strAlcoholic || '',
       name: isMealsPage ? (recipe as MealDetailsAPI).strMeal : (recipe as DrinkDetailsType).strDrink,
       image: isMealsPage ? (recipe as MealDetailsAPI).strMealThumb : (recipe as DrinkDetailsType).strDrinkThumb,
-      doneDate: new Date().toISOString(),
+      doneDate: formattedDate,
       tags: (recipe as MealDetailsAPI).strTags?.split(',') || [],
     };
     localStorage.setItem('doneRecipes', JSON.stringify([...doneRecipes, newDoneRecipe]));
