@@ -91,13 +91,14 @@ function MealsInProgress(props: MealsInProgressProps) {
       <ul className="list-group mb-3">
         {ingredientsList.map((ingredient, index) => (
           <li key={ index } className="list-group-item d-flex align-items-center gap-2">
-            <input
-              type="checkbox"
-              checked={ checkedIngredients.includes(ingredient) }
-              onChange={ () => handleCheckboxChange(ingredient) }
-              data-testid={ `${index}-ingredient-step` }
-              className="form-check-input"
-            />
+            <label data-testid={ `${index}-ingredient-step` }>
+              <input
+                type="checkbox"
+                checked={ checkedIngredients.includes(ingredient) }
+                onChange={ () => handleCheckboxChange(ingredient) }
+                className="form-check-input"
+              />
+            </label>
             <span
               style={ {
                 textDecoration: checkedIngredients.includes(ingredient)

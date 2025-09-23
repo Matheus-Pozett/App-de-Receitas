@@ -58,20 +58,19 @@ function DrinksInProgress(props: DrinksInProgressProps) {
         <div className="position-absolute top-0 end-0 d-flex gap-2 m-2">
           <button
             onClick={ handleShare }
-            data-testid="share-btn"
             className="btn btn-light p-2 rounded-circle"
           >
-            <img src={ shareIcon } alt="Share" />
+            <img src={ shareIcon } alt="Share" data-testid="share-btn" />
           </button>
 
           <button
             onClick={ handleFavorite }
-            data-testid="favorite-btn"
             className="btn btn-light p-2 rounded-circle"
           >
             <img
               src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
               alt="Favorite"
+              data-testid="favorite-btn"
             />
           </button>
         </div>
@@ -87,13 +86,14 @@ function DrinksInProgress(props: DrinksInProgressProps) {
       <ul className="list-group mb-3">
         {ingredientsList.map((ingredient, index) => (
           <li key={ index } className="list-group-item d-flex align-items-center gap-2">
-            <input
-              type="checkbox"
-              checked={ checkedIngredients.includes(ingredient) }
-              onChange={ () => handleCheckboxChange(ingredient) }
-              data-testid={ `${index}-ingredient-step` }
-              className="form-check-input"
-            />
+            <label data-testid={ `${index}-ingredient-step` }>
+              <input
+                type="checkbox"
+                checked={ checkedIngredients.includes(ingredient) }
+                onChange={ () => handleCheckboxChange(ingredient) }
+                className="form-check-input"
+              />
+            </label>
             <span
               style={ {
                 textDecoration: checkedIngredients.includes(ingredient)

@@ -59,12 +59,16 @@ function DrinksDetails(
 
         <div className="position-absolute top-0 end-0 d-flex gap-2 p-2">
           <button
-            data-testid="share-btn"
             onClick={ handleShare }
             className="btn btn-light p-2 rounded-circle"
             aria-label="share"
           >
-            <img src={ shareIcon } alt="compartilhar" style={ { width: '20px' } } />
+            <img
+              data-testid="share-btn"
+              src={ shareIcon }
+              alt="compartilhar"
+              style={ { width: '20px' } }
+            />
           </button>
           <button
             onClick={ handleFavorite }
