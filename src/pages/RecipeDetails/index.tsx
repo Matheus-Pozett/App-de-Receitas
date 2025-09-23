@@ -6,7 +6,7 @@ import { fetchDrinksById,
   fetchMealsById,
   getDrinksByName,
   getMealByName } from '../../services/api';
-import { DrinkDetailsType, MealDetailsAPI } from '../../types';
+import { DoneRecipesType, DrinkDetailsType, MealDetailsAPI } from '../../types';
 import DrinksDetails from '../../components/DrinksDetails';
 import { useFavorites } from '../../context/FavoritesContext';
 import { useShare } from '../../hooks/useShare';
@@ -15,6 +15,8 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState<MealDetailsAPI | DrinkDetailsType | null>(null);
   const [mealRecommendations, setMealRecommendations] = useState<MealDetailsAPI[]>([]);
   const [drinkRecommendations, setDrinkRecommendations] = useState<DrinkDetailsType[]>([]);
+  const [isRecipeDone, setIsRecipeDone] = useState(false);
+  const [isRecipeInProgress, setIsRecipeInProgress] = useState(false);
   const { pathname } = useLocation();
   const { handleFavorite, isRecipeFavorite } = useFavorites();
   const { id } = useParams();
@@ -55,6 +57,21 @@ function RecipeDetails() {
     getRecommendations();
   }, [isMealsPage]);
 
+  useEffect(() => {
+    if (recipe && id) {
+      // Requisito 28: Verificar se a receita já foi concluída
+      const doneRecipes: DoneRecipesType[] = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
+      const done = doneRecipes.some((doneRecipe) => doneRecipe.id === id);
+      setIsRecipeDone(done);
+
+      // Requisito 29: Verificar se a receita está em progresso
+      const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes') || '{}');
+      const recipeTypeKey = isMealsPage ? 'meals' : 'drinks';
+      const inProgress = inProgressRecipes[recipeTypeKey] ? Object.keys(inProgressRecipes[recipeTypeKey]).includes(id) : false;
+      setIsRecipeInProgress(inProgress);
+    }
+  }, [recipe, id, isMealsPage]);
+
   const recipeId = recipe ? (recipe as MealDetailsAPI).idMeal || (recipe as DrinkDetailsType).idDrink : null;
   const isCurrentlyFavorite = recipeId ? isRecipeFavorite(recipeId) : false;
 
@@ -91,6 +108,8 @@ function RecipeDetails() {
           isLinkCopied={ isLinkCopied }
           handleFavorite={ handleFavorites }
           isFavorite={ isCurrentlyFavorite }
+          isRecipeDone={ isRecipeDone }
+          isRecipeInProgress={ isRecipeInProgress }
         />
       ) : (
         <DrinksDetails
@@ -101,6 +120,8 @@ function RecipeDetails() {
           isLinkCopied={ isLinkCopied }
           handleFavorite={ handleFavorites }
           isFavorite={ isCurrentlyFavorite }
+          isRecipeDone={ isRecipeDone }
+          isRecipeInProgress={ isRecipeInProgress }
         />
       )}
 

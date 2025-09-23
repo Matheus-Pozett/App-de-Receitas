@@ -12,6 +12,8 @@ type DrinksDetailsProps = {
   isLinkCopied: boolean;
   handleFavorite: () => void;
   isFavorite: boolean;
+  isRecipeDone: boolean;
+  isRecipeInProgress: boolean;
 };
 
 function DrinksDetails(
@@ -22,6 +24,8 @@ function DrinksDetails(
     isLinkCopied,
     handleFavorite,
     isFavorite,
+    isRecipeDone,
+    isRecipeInProgress,
   }: DrinksDetailsProps,
 ) {
   const ingredientsList = Object.entries(recipeDetail)
@@ -143,21 +147,23 @@ function DrinksDetails(
         ))}
       </div>
 
-      <button
-        data-testid="start-recipe-btn"
-        className="btn btn-warning fw-bold text-white py-3"
-        onClick={ handleStartRecipe }
-        style={ {
-          position: 'fixed',
-          bottom: 0,
-          left: 0,
-          width: '100%',
-          zIndex: 1050,
-          boxShadow: '0 -2px 6px rgba(0,0,0,0.1)',
-        } }
-      >
-        START RECIPE
-      </button>
+      {!isRecipeDone && (
+        <button
+          data-testid="start-recipe-btn"
+          className="btn btn-warning fw-bold text-white py-3"
+          onClick={ handleStartRecipe }
+          style={ {
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+            zIndex: 1050,
+            boxShadow: '0 -2px 6px rgba(0,0,0,0.1)',
+          } }
+        >
+          {isRecipeInProgress ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
+      )}
     </div>
   );
 }
