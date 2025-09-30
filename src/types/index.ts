@@ -111,11 +111,33 @@ export type DrinkDetailsType = {
   strImageSource: string | null;
   strImageAttribution: string | null;
   strCreativeCommonsConfirmed: string;
-  dateModified: string;
+  dateModified: string | null;
 };
 
 export type CategoriesType = {
   strCategory: string
+};
+
+export type FavoritesType = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+};
+
+export type DoneRecipesType = {
+  id: string,
+  type: string,
+  nationality: string,
+  category: string,
+  alcoholicOrNot: string,
+  name: string,
+  image: string,
+  doneDate: string,
+  tags: string[]
 };
 
 // eslint-disable-next-line max-len
