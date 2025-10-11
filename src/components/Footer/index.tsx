@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import drinkIcon from '../../images/drinkIcon.svg';
-import mealIcon from '../../images/mealIcon.svg';
+import drinkIcon from '../../images/drinksIcon.svg';
+import mealIcon from '../../images/icone-prato.svg';
 
 function Footer() {
   return (
