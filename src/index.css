@@ -11,3 +11,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loader {
+  width: 100%;
+  max-width: 215px;
+  height: 220px;
+  background:
+    linear-gradient(0.25turn, transparent, #FFF, transparent),
+    linear-gradient(#DDD, #DDD),
+    linear-gradient(#DDD, #DDD),
+    linear-gradient(#DDD, #DDD);
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-size: 215px 220px, 215px 130px, 100px 15px, 150px 15px;
+  background-position: -215px 0, 0 0, 15px 150px, 15px 180px;
+  border-radius: 10px;
+  animation: loading 1.5s infinite;
+  margin: auto;
+}
+
+@keyframes loading {
+  to {
+    background-position: 215px 0, 0 0, 15px 150px, 15px 180px;
+  }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .loader {
+    max-width: 170px;
+    height: 180px;
+    background-size: 170px 180px, 170px 110px, 90px 12px, 130px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loader {
+    max-width: 150px;
+    height: 160px;
+    background-size: 150px 160px, 150px 100px, 80px 12px, 110px 12px;
+  }
+}
+
