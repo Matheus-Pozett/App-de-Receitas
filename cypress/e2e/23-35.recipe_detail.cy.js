@@ -137,7 +137,7 @@ describe('25 - Implemente as recomendações. Para receitas de comida, a recomen
 
     cy.window()
       .its('fetch')
-      .should('be.calledWith', 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      .should('be.calledWith', 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=w');
   });
 
   it('Verifica se a requisição para a API de comidas foi realizada', () => {
