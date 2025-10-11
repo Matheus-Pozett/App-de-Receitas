@@ -84,7 +84,11 @@ function RecipeInProgress() {
   };
 
   if (!recipe) {
-    return <p>Carregando</p>;
+    return (
+      <div className="loader-details-container">
+        <span className="loader-details" />
+      </div>
+    );
   }
 
   const props = {

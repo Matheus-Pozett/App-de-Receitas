@@ -23,7 +23,6 @@ function DoneRecipes() {
 
   return (
     <div className="container pb-5">
-      {/* Filtros */}
       <div className="d-flex justify-content-around my-3 text-center">
         <div>
           <button
@@ -59,7 +58,6 @@ function DoneRecipes() {
         </div>
       </div>
 
-      {/* Lista de Receitas */}
       <div className="d-flex flex-column gap-3 mt-3">
         {filteredDoneRecipes.map((recipe, index) => (recipe.type === 'meal' ? (
           <DoneRecipeMealCard recipe={ recipe } index={ index } key={ recipe.id } />

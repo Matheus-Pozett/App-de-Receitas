@@ -93,8 +93,13 @@ function RecipeDetails() {
 
     handleFavorite(recipe, isMealsPage);
   };
+
   if (!recipe) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loader-details-container">
+        <span className="loader-details" />
+      </div>
+    );
   }
 
   return (
