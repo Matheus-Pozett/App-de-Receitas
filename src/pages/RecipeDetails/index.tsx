@@ -59,12 +59,10 @@ function RecipeDetails() {
 
   useEffect(() => {
     if (recipe && id) {
-      // Requisito 28: Verificar se a receita já foi concluída
       const doneRecipes: DoneRecipesType[] = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
       const done = doneRecipes.some((doneRecipe) => doneRecipe.id === id);
       setIsRecipeDone(done);
 
-      // Requisito 29: Verificar se a receita está em progresso
       const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes') || '{}');
       const recipeTypeKey = isMealsPage ? 'meals' : 'drinks';
       const inProgress = inProgressRecipes[recipeTypeKey] ? Object.keys(inProgressRecipes[recipeTypeKey]).includes(id) : false;

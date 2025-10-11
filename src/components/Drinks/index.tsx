@@ -9,7 +9,7 @@ function Drinks() {
 
   return (
     <div className="container pb-5">
-      <div className="row">
+      <div className="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
         {drinks.map((drink, index) => (
           <div key={ drink.idDrink } className="col-6 mb-3">
             <Link
