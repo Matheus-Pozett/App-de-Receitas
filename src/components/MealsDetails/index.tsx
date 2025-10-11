@@ -114,7 +114,14 @@ function MealsDetails(
       </div>
 
       <h2 className="fw-bold">Video</h2>
-      <div className="ratio ratio-16x9 mb-4">
+      <div
+        className="ratio ratio-16x9 mb-4 mx-auto"
+        style={ {
+          maxWidth: '600px',
+          borderRadius: '8px',
+          overflow: 'hidden',
+        } }
+      >
         <iframe
           data-testid="video"
           src={ getYoutubeEmbedUrl(recipeDetail.strYoutube) }
@@ -126,7 +133,7 @@ function MealsDetails(
 
       <h2 className="fw-bold">Recommended</h2>
       <div
-        className="d-flex mb-4"
+        className="d-flex mb-4 flex-nowrap"
         style={ {
           overflowX: 'auto',
           gap: '1rem',
@@ -140,6 +147,7 @@ function MealsDetails(
             className="card flex-shrink-0"
             style={ {
               width: '50%',
+              maxWidth: '250px',
               scrollSnapAlign: 'start',
             } }
           >

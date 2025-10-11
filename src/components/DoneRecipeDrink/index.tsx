@@ -20,19 +20,22 @@ function DoneRecipeDrinkCard({ recipe, index }: DoneRecipeDrinkProps) {
   return (
     <div className="card shadow-sm border-0 overflow-hidden">
       <div className="row g-0">
-        {/* Imagem */}
         <div className="col-5">
           <Link to={ `/drinks/${recipe.id}` }>
             <img
               src={ recipe.image }
               alt={ `imagem da bebida ${recipe.name}` }
-              className="img-fluid h-100 object-fit-cover"
+              className="img-fluid object-fit-cover rounded-start"
               data-testid={ `${index}-horizontal-image` }
+              style={ {
+                height: '140px',
+                width: '100%',
+                objectFit: 'cover',
+              } }
             />
           </Link>
         </div>
 
-        {/* Conteúdo */}
         <div className="col-7 p-3 d-flex flex-column justify-content-between">
           <div>
             <div className="d-flex justify-content-between align-items-start">
@@ -75,7 +78,6 @@ function DoneRecipeDrinkCard({ recipe, index }: DoneRecipeDrinkProps) {
             </p>
           </div>
 
-          {/* Tags */}
           <div className="d-flex flex-wrap gap-2 mt-2">
             {recipe.tags.map((tag) => (
               <span

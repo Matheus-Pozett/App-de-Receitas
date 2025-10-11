@@ -131,6 +131,7 @@ function DrinksDetails(
             className="card flex-shrink-0"
             style={ {
               width: '50%',
+              maxWidth: '250px',
               scrollSnapAlign: 'start',
             } }
           >
