@@ -66,26 +66,27 @@ function FavoriteRecipes() {
       </div>
 
       <div className="d-flex flex-column gap-3">
-        {filteredFavorites.map((fav, index) => {
-          if (fav.type === 'meal') {
-            return (
-              <MealFavoriteCard
-                fav={ fav }
-                index={ index }
-                key={ fav.id }
-                handleUnfavorite={ handleUnfavorite }
-              />
-            );
-          }
-          return (
+        {filteredFavorites.length === 0 ? (
+          <div className="text-center text-muted mt-5">
+            <p className="fw-semibold">Nenhuma receita foi favoritada ainda 🍳</p>
+          </div>
+        ) : (
+          filteredFavorites.map((fav, index) => (fav.type === 'meal' ? (
+            <MealFavoriteCard
+              fav={ fav }
+              index={ index }
+              key={ fav.id }
+              handleUnfavorite={ handleUnfavorite }
+            />
+          ) : (
             <DrinkFavoriteCard
               fav={ fav }
               index={ index }
               key={ fav.id }
               handleUnfavorite={ handleUnfavorite }
             />
-          );
-        })}
+          )))
+        )}
       </div>
     </div>
   );
