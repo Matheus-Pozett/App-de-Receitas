@@ -27,7 +27,7 @@ function Header({ title, icon }: HeaderProps) {
         className="d-flex align-items-center justify-content-between py-2 px-3"
         style={ { backgroundColor: '#FBC02D' } }
       >
-        <div className="d-flex align-items-center gap-2">
+        <Link to="/meals" className="d-flex align-items-center gap-2">
           <img
             src={ iconApp }
             alt="icone do app"
@@ -38,7 +38,7 @@ function Header({ title, icon }: HeaderProps) {
             alt="nome do site"
             style={ { height: '20px' } }
           />
-        </div>
+        </Link>
 
         <div className="d-flex align-items-center gap-3">
           {showSearchButton && (

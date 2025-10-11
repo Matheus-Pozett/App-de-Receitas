@@ -43,7 +43,7 @@ function Recipes() {
   const [activeFilter, setActiveFilter] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const { pathname } = useLocation();
-  const { recipes, setRecipes } = useRecipes();
+  const { setRecipes } = useRecipes();
 
   const isMealsPage = pathname === '/meals';
 
@@ -103,10 +103,9 @@ function Recipes() {
 
   return (
     <div>
-      {/* CATEGORIAS */}
       <div className="container my-3">
         <div className="row justify-content-center text-center">
-          <div className="col-2 d-flex justify-content-center mb-3">
+          <div className="col-2 d-flex justify-content-center mb-3 p-1">
             <button
               data-testid="All-category-filter"
               onClick={ fetchInitialRecipes }
@@ -114,7 +113,7 @@ function Recipes() {
             >
               <div
                 className="d-flex justify-content-center align-items-center border
-                border-warning rounded-circle p-3 mb-1"
+                border-warning rounded-circle p-2 mb-1"
               >
                 <img
                   src={ iconAll }
@@ -137,7 +136,6 @@ function Recipes() {
         </div>
       </div>
 
-      {/* LOADING */}
       {isLoading ? (
         <div className="container">
           <div className="row justify-content-center">
