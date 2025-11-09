@@ -6,13 +6,15 @@ import { renderWithRouter } from './renderWithRouter';
 import App from '../App';
 import { drinksMock } from './mocks/drinks.mock';
 
+const MEALS_URL = '/meals/53086';
+
 describe('Testes da pagina de detalhe da receita', () => {
   afterEach(() => vi.clearAllMocks());
 
   test('Realiza uma request para a API de comidas passando o ID da receita que deve estar disponível nos parâmetros da URL', async () => {
     vi.spyOn(api, 'fetchMealsById').mockResolvedValue(mealsMock[0]);
 
-    renderWithRouter(<App />, { route: '/meals/53086' });
+    renderWithRouter(<App />, { route: MEALS_URL });
 
     await waitFor(() => expect(api.fetchMealsById).toBeCalledWith('53086'));
   });
@@ -28,7 +30,7 @@ describe('Testes da pagina de detalhe da receita', () => {
   test('A tela de comida contem uma imagem da receita, um título, a categoria da receita, uma lista de ingredientes, um vídeo do YouTube incorporado e recomendações', async () => {
     vi.spyOn(api, 'fetchMealsById').mockResolvedValue(mealsMock[0]);
 
-    renderWithRouter(<App />, { route: '/meals/53086' });
+    renderWithRouter(<App />, { route: MEALS_URL });
 
     const imgRecipe = await screen.findByTestId('recipe-photo');
     const titleRecipe = await screen.findByTestId('recipe-title');
@@ -65,5 +67,14 @@ describe('Testes da pagina de detalhe da receita', () => {
     expect(ingredientRecipe).toHaveTextContent(/Vodka/i);
     expect(instructions).toBeInTheDocument();
     expect(recommendations).toBeInTheDocument();
+  });
+
+  test('Testa se o botão Start Recipe está presente na tela e se é fixed', async () => {
+    renderWithRouter(<App />, { route: MEALS_URL });
+    const startRecipeBtn = await screen.findByTestId('start-recipe-btn');
+
+    expect(startRecipeBtn).toBeInTheDocument();
+    expect(startRecipeBtn).toHaveTextContent(/Start Recipe/i);
+    expect(startRecipeBtn).toHaveStyle('position: fixed');
   });
 });
